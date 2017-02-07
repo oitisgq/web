@@ -1227,7 +1227,7 @@
         return [ {
           name: 'defeitos',
           colorByPoint: true,
-          data: this.reopenedByDevManuf.map(i => ({ name: i.devManufacturing, y: i.qty, drilldown: i.devManufacturing, qtyTotal: i.qtyTotal, percent: i.percent }))
+          data: this.reopenedByDevManuf.map(i => ({ name: i.devManufacturing, y: i.percent, drilldown: i.devManufacturing, qtyTotal: i.qtyTotal, qty: i.qty }))
         } ]
       },
       reopenedDrilldownSeries () {
@@ -1238,7 +1238,7 @@
           out.push({
             name: fab.devManufacturing,
             id: fab.devManufacturing,
-            data: _this.reopenedByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, percent: i.percent, y: i.qty, qtyTotal: i.qtyTotal }))
+            data: _this.reopenedByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qty: i.qty, qtyTotal: i.qtyTotal }))
           })
         })
         return out
@@ -1470,7 +1470,7 @@
         return [ {
           name: 'defeitos',
           colorByPoint: true,
-          data: this.noPredictionByDevManuf.map(i => ({ name: i.devManufacturing, y: i.qty, drilldown: i.devManufacturing, qtyTotal: i.qtyTotal, percent: i.percent }))
+          data: this.noPredictionByDevManuf.map(i => ({ name: i.devManufacturing, y: i.percent, drilldown: i.devManufacturing, qtyTotal: i.qtyTotal, qty: i.qty }))
         } ]
       },
       noPredictionDrilldownSeries () {
@@ -1481,7 +1481,7 @@
           out.push({
             name: fab.devManufacturing,
             id: fab.devManufacturing,
-            data: _this.noPredictionByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, percent: i.percent, y: i.qty, qtyTotal: i.qtyTotal }))
+            data: _this.noPredictionByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qty: i.qty, qtyTotal: i.qtyTotal }))
           })
         })
         return out
@@ -2224,9 +2224,9 @@
 
         this.reopenedOptionsDrillDown.title.text = 'Por Fáb. Des. / Sistema'
         this.reopenedOptionsDrillDown.yAxis.title.text = '% Defeitos'
-        this.reopenedOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Reaberturas: {point.y:.0f}<br>{point.percent:.2f}%'
+        this.reopenedOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Reaberturas: {point.qty:.0f}<br>{point.y:.2f}%'
         this.reopenedOptionsDrillDown.series.name = 'Defeitos'
-        this.reopenedOptionsDrillDown.plotOptions.bar.dataLabels.format = '{point.percent:.0f}'
+        this.reopenedOptionsDrillDown.plotOptions.bar.dataLabels.format = '{point.y:.0f}'
         this.reopenedOptionsDrillDown.series = this.reopenedSeries
         this.reopenedOptionsDrillDown.drilldown.series = this.reopenedDrilldownSeries
 
@@ -2356,9 +2356,9 @@
 
         this.noPredictionOptionsDrillDown.title.text = 'Por Fáb. Des. / Sistema'
         this.noPredictionOptionsDrillDown.yAxis.title.text = '% Defeitos'
-        this.noPredictionOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Reaberturas: {point.y:.0f}<br>{point.percent:.2f}%'
+        this.noPredictionOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Reaberturas: {point.qty:.0f}<br>{point.y:.2f}%'
         this.noPredictionOptionsDrillDown.series.name = 'Defeitos'
-        this.noPredictionOptionsDrillDown.plotOptions.bar.dataLabels.format = '{point.percent:.0f}'
+        this.noPredictionOptionsDrillDown.plotOptions.bar.dataLabels.format = '{point.y:.0f}'
         this.noPredictionOptionsDrillDown.series = this.noPredictionSeries
         this.noPredictionOptionsDrillDown.drilldown.series = this.noPredictionDrilldownSeries
 
