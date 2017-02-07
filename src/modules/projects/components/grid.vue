@@ -15,7 +15,7 @@
         colors: [
           { portugues: 'VERMELHO', ingles: 'red' },
           { portugues: 'VERDE', ingles: 'green' },
-          { portugues: 'AZUL', ingles: 'blue' }
+          { portugues: 'AMARELO', ingles: 'gold' }
         ]
       }
     },
@@ -24,10 +24,10 @@
       onSelectItem (item, state) {
         this.$emit('onSelectItem', item, state)
       },
+
       color (item) {
-        return this.colors.filter(function (obj) {
-          return obj.portugues === item
-        })[0].ingles
+        let index = this.colors.findIndex(i => i.portugues === item)
+        return (index > -1) ? this.colors[index].ingles : ''
       }
     }
   }
@@ -35,65 +35,65 @@
 
 <template>
   <div id="projectsGrid">
-    <table class="table table-condensed table-striped table-hover" style="margin-bottom:0;padding-bottom:0">
+    <table class="table table-condensed table-striped table-hover table-bordered" style="margin-bottom:0; border:0; padding-bottom:0">
         <thead>
             <tr>
                 <th class="text-center" style="padding:0">
-                    <font size="2">Proj.</font>
+                    <font size="2px">Proj.</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Nome</font>
+                    <font size="2px">Nome</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Clas.</font>
+                    <font size="2px">Clas.</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Rel.</font>
+                    <font size="2px">Rel.</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Estado</font>
+                    <font size="2px">Estado</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Farol</font>
+                    <font size="2px">Farol</font>
                 </th>
 
                 <th class="text-center" style="padding:0">
-                    <font size="2">Ações</font>
+                    <font size="2px">Ações</font>
                 </th>                                
             </tr>
         </thead>
         <tbody v-for="item in dataSource">
-            <tr style="padding:0">
+            <tr>
+                <td class="text-center" style="padding:0">
+                    <font size="2px">{{item.subprojectDelivery}}</font>
+                </td>
+
                 <td class="text-left" style="padding:0">
-                    <font size="2">{{item.subprojectDelivery}}</font>
-                </td>
-
-                <td class="text-left" style="padding:0">
-                    <font size="2">{{item.name}}</font>
+                    <font size="1.5px">{{item.name}}</font>
                 </td>
 
                 <td class="text-center" style="padding:0">
-                    <font size="2">{{item.classification}}</font>
+                    <font size="2px">{{item.classification.substring(0,3)}}</font>
                 </td>
 
                 <td class="text-center" style="padding:0">
-                    <font size="2">{{item.release}}</font>
+                    <font size="2px">{{item.release}}</font>
                 </td>
 
                 <td class="text-center" style="padding:0">
-                    <font size="2">{{item.state}}</font>
+                    <font size="2px">{{item.state}}</font>
                 </td>
 
                 <td class="text-center" :style="'color:' + color(item.trafficLight)">
-                    <font size="2">{{item.trafficLight}}</font>
+                    <font size="2px">{{item.trafficLight.substring(0,4)}}</font>
                 </td>
 
-                <td class="text-right" style="padding:0; white-space: nowrap">
+                <td class="text-center" style="padding:0; white-space: nowrap">
                   <a class='btn btn-xs my-tool-tip' 
                     data-toggle="tooltip" 
                     title="Exibir" 
@@ -109,4 +109,5 @@
 </template>
 
 <style>
+
 </style>

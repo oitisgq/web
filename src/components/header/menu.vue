@@ -40,6 +40,22 @@
                 </router-link>
             </ul>
         </li>
+
+        <li class="dropdown">
+            <a href="#" 
+                class="dropdown-toggle oi-menu" data-toggle="dropdown" 
+                role="button" aria-haspopup="true" aria-expanded="false">BPTs Especiais<span class="caret"/>&nbsp;
+            </a>
+            <ul class="dropdown-menu">
+                <router-link :to="{ name: 'bptEspValidacaoPlano' }" tag="li">
+                    <a class="oi-menu">Validação do Plano</a>
+                </router-link>
+                <router-link :to="{ name: 'bptEspExecucaoTestes' }" tag="li">
+                    <a class="oi-menu">Execução dos Testes</a>
+                </router-link>
+            </ul>
+        </li>
+
         <li class="dropdown">
             <a href="#" 
                 class="dropdown-toggle oi-menu" data-toggle="dropdown" 

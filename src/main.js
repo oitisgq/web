@@ -5,6 +5,8 @@ import store from './vuex'
 
 import app from 'components/app.vue'
 
+import 'babel-polyfill'
+
 /* eslint-disable no-new */
 
 new Vue({
@@ -14,4 +16,4 @@ new Vue({
   render: h => h(app)
 })
 
-// outer.start(App, '#app')
+// router.start(App, '#app')

@@ -24,9 +24,10 @@
       },
 
       color (item) {
-        return this.colors.filter(function (obj) {
-          return obj.portugues === item
-        })[0].ingles
+        // return this.colors.filter(function (obj) {
+        //   return obj.portugues === item
+        // })[0].ingles
+        return ''
       }
     }
   }

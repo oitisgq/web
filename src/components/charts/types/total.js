@@ -4,30 +4,46 @@ export default function () {
       type: 'gauge',
       backgroundColor: 'transparent'
     },
-    credits: { enabled: false },
-    exporting: { buttons: { contextButton: { text: 'Exportar', symbol: 'circle', symbolStrokeWidth: 1, symbolFill: '#a4edba', symbolStroke: '#330033', menuItems: null, onclick: function () { this.exportChart() } } } },
-    lang: { noData: 'Sem dados para mostrar' },
     title: { text: '', y: 0, style: { fontSize: 14, fontWeight: 'bold' } },
+    credits: { enabled: false },
+    exporting: { enabled: false },
+    lang: { noData: 'Sem dados para mostrar' },
     yAxis: {
       min: 0,
-      max: 0,
-      tickPixelInterval: 0,
+      max: 100,
+      tickPixelInterval: 30,
       minorTickInterval: 'auto',
       tickColor: '#666',
-      title: { text: '' },
-      plotBands: [],
-      labels: {step: 2}
+      title: { text: '% Dens' },
+      labels: {step: 2},
+      plotBands: []
     },
-    tooltip: { pointFormat: '' },
-    pane: { startAngle: -170, endAngle: 170 },
     plotOptions: {
       gauge: {
         dataLabels: {
           enabled: true,
-          format: ''
+          format: '{point.y:.0f}'
         }
       }
     },
-    series: []
+    tooltip: {
+      pointFormat: '{point.y:.2f}%'
+    },
+    pane: {
+      startAngle: -170,
+      endAngle: 170
+    },
+    series: [
+      {
+        name: 'Densidade',
+        colorByPoint: true,
+        data: [ 55.5 ]
+      }
+    ],
+    navigation: {
+      buttonOptions: {
+        enabled: false
+      }
+    }
   }
 }

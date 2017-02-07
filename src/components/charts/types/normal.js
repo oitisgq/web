@@ -4,7 +4,10 @@ export default function () {
       type: 'bar',
       backgroundColor: 'transparent'
     },
-    title: { text: '', style: { fontSize: 14, fontWeight: 'bold' } },
+    title: { text: '', y: 0, style: { fontSize: 14, fontWeight: 'bold' } },
+    credits: { enabled: false },
+    exporting: { enabled: false },
+    lang: { noData: 'Sem dados para mostrar' },
     xAxis: { type: 'category' },
     yAxis: { title: {text: ''}, plotLines: [{value: 0, width: 1, color: '#FF8080'}] },
     tooltip: { pointFormat: '' },

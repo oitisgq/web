@@ -1,4 +1,21 @@
 <script>
+  const Highcharts = require('highcharts')
+
+  const highchartsMore = require('highcharts-more')
+  highchartsMore(Highcharts)
+
+  const highcharts3d = require('highcharts-3d')
+  highcharts3d(Highcharts)
+
+  const highchartsExporting = require('highcharts-exporting')
+  highchartsExporting(Highcharts)
+
+  const highchartsDrilldown = require('highcharts-drilldown')
+  highchartsDrilldown(Highcharts)
+
+  const highchartsNoData = require('highcharts-no-data-to-display')
+  highchartsNoData(Highcharts)
+
   import oiSelection from 'components/selections/selections.vue'
   import oiSelectionProjects from './selectionProjects.vue'
   
@@ -93,7 +110,7 @@
 
     computed: {
 
-      // DADOS QUE CONTROLAM A RESPONSIVIDADE DOS FILTROS
+      // DADOS QUE CONTROLAM A RESPONSIVIDADE DOS FILTROS //
 
       isShowFiltersSystems () { return this.selectDevManufConfirmed === true && this.devManufacturersSelected.length > 0 },
       isShowFiltersProjects () { return this.systemsConfirmed === true && this.systemsSelected.length > 0 },
@@ -1238,7 +1255,7 @@
           out.push({
             name: fab.devManufacturing,
             id: fab.devManufacturing,
-            data: _this.reopenedByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qty: i.qty, qtyTotal: i.qtyTotal }))
+            data: _this.reopenedByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qtyTotal: i.qtyTotal, qty: i.qty }))
           })
         })
         return out
@@ -1481,7 +1498,7 @@
           out.push({
             name: fab.devManufacturing,
             id: fab.devManufacturing,
-            data: _this.noPredictionByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qty: i.qty, qtyTotal: i.qtyTotal }))
+            data: _this.noPredictionByOneSystem(fab.devManufacturing).map(i => ({ name: i.system, y: i.percent, qtyTotal: i.qtyTotal, qty: i.qty }))
           })
         })
         return out
@@ -1813,9 +1830,9 @@
           {from: 20, to: 30, color: '#FF9E0D'},
           {from: 30, to: _this.densityOptionsTotal.yAxis.max, color: '#FF3300'}
         ]
+        _this.densityOptionsTotal.plotOptions.gauge.dataLabels.format = '{point.y:.0f}%'
         _this.densityOptionsTotal.tooltip.pointFormat = '{point.y:.2f}%'
         _this.densityOptionsTotal.series.name = 'Densidade'
-        _this.densityOptionsTotal.plotOptions.gauge.dataLabels.format = '{point.y:.0f}'
         _this.densityOptionsTotal.series = [ { name: 'densidade', colorByPoint: true, data: [ result ] } ]
 
         /* eslint-disable */
@@ -2270,7 +2287,7 @@
         }
 
         this.reopenedOptionsTimeline.title.text = 'Temporal'
-        this.reopenedOptionsTimeline.yAxis.title.text = 'Defeitos'
+        this.reopenedOptionsTimeline.yAxis.title.text = '% Defeitos'
         this.reopenedOptionsTimeline.xAxis.categories = dataSource.map(i => i.date)
         this.reopenedOptionsTimeline.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Def.Reabertos: {point.percent:.0f}<br>{point.y:.2f}%'
         this.reopenedOptionsTimeline.series.name = 'Defeitos'
@@ -2324,8 +2341,8 @@
           }
         }
 
-        let limitSupGreen = result.qtyReference
-        let limitSupRed = limitSupGreen > result.qtyTotal ? limitSupGreen : result.qtyTotal
+        let limitSupGreen = 5
+        let limitSupRed = result.percent > 100 ? result.percent : 100
 
         _this.reopenedOptionsTotal.title.text = 'Total'
         _this.reopenedOptionsTotal.yAxis.title.text = 'Def.'
@@ -2356,7 +2373,7 @@
 
         this.noPredictionOptionsDrillDown.title.text = 'Por Fáb. Des. / Sistema'
         this.noPredictionOptionsDrillDown.yAxis.title.text = '% Defeitos'
-        this.noPredictionOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Reaberturas: {point.qty:.0f}<br>{point.y:.2f}%'
+        this.noPredictionOptionsDrillDown.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>S/Prev.Sol: {point.qty:.0f}<br>{point.y:.2f}%'
         this.noPredictionOptionsDrillDown.series.name = 'Defeitos'
         this.noPredictionOptionsDrillDown.plotOptions.bar.dataLabels.format = '{point.y:.0f}'
         this.noPredictionOptionsDrillDown.series = this.noPredictionSeries
@@ -2402,7 +2419,7 @@
         }
 
         this.noPredictionOptionsTimeline.title.text = 'Temporal'
-        this.noPredictionOptionsTimeline.yAxis.title.text = 'Defeitos'
+        this.noPredictionOptionsTimeline.yAxis.title.text = '% Defeitos'
         this.noPredictionOptionsTimeline.xAxis.categories = dataSource.map(i => i.date)
         this.noPredictionOptionsTimeline.tooltip.pointFormat = 'Total: {point.qtyTotal:.0f}<br>Def.Sem Previsão: {point.percent:.0f}<br>{point.y:.2f}%'
         this.noPredictionOptionsTimeline.series.name = 'Defeitos'
@@ -2456,8 +2473,8 @@
           }
         }
 
-        let limitSupGreen = result.qtyReference
-        let limitSupRed = limitSupGreen > result.qtyTotal ? limitSupGreen : result.qtyTotal
+        let limitSupGreen = 5
+        let limitSupRed = result.percent > 100 ? result.percent : 100
 
         _this.noPredictionOptionsTotal.title.text = 'Total'
         _this.noPredictionOptionsTotal.yAxis.title.text = 'Def.'
@@ -2573,145 +2590,257 @@
             </ul>
 
             <div class="tab-content">
-                <div id="density" class="tab-pane fade in active" style="padding:0 margin:0">
-                  <center class="text-top">
-                  <h4 v-show="densityDevManufSelected != ''" style="margin:3px"><b>{{densityDevManufSelected}}</b></h4>
+              <div id="density" class="tab-pane fade in active" style="padding:0; margin:0">
+                <center>
+                    <h4 v-show="densityDevManufSelected != ''" style="margin:3px"><b>{{densityDevManufSelected}}</b></h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
 
-                  <hr style="margin:0 height: 7px border: 0 box-shadow: 0 7px 7px -7px #d9d9d9 inset">
-
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                      <div id="chartDensityDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                      <div id="chartDensityTimeline" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
-                  
-                  <div class="col-xs-12 col-md-6 col-lg-4">  
-                      <div id="chartdensityTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <button 
-                          type="button" 
-                          style="margin-top:3px"
-                          class="btn btn-xs"
-                          data-toggle="modal" 
-                          data-target="#rulesDensityModal">Regras
-                      </button>
-                      <oiRulesDensity></oiRulesDensity>
-
-                      <button 
-                          type="button" 
-                          style="margin-top:3px"
-                          class="btn btn-xs"
-                          data-toggle="modal" 
-                          data-target="#densityAnalyticalModal">Analítico
-                      </button>
-                      <oiShowDensityAnalytical
-                          title="Analítico de 'Densidade'" 
-                          :dataSource="densityFiltered"
-                      ></oiShowDensityAnalytical>
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartDensityDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
                     </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartDensityTimeline" style="width:300px; height:300px; margin:0 auto"></div>
                     </div>
-                 </center>
-                </div>
-
-      
-                <div id="averageTime" class="tab-pane fade in" style="padding:0 margin:0">
-                   <center class="text-top">
-                  <h4 v-show="averageTimeDevManufSelected != ''" style="margin:3px"><b>{{averageTimeDevManufSelected}}</b></h4>
-                  <span id="labelSeverity" v-show="averageTimeDevManufSelected != ''">
-                      ( {{severitySelected}} )
-                  </span>
-                  <hr style="margin:0 height: 5px border: 0 box-shadow: 0 7px 7px -7px #d9d9d9 inset">
-                  <div class="col-xs-12 text-center" style="margin-top:0px height: 5px">
-                    <div id="buttonsSeveritys" v-show="averageTimeDevManufSelected === ''">
-                        <template v-for="i in severitys" v-show="averageTimeDevManufSelected == ''">
-                            <button 
-                                type="button" 
-                                id="severity"
-                                class="btn btn-xs"
-                                style="margin-top:0; margin-right:2px; margin-bottom:3px"
-                                @click="selectSeverity(i.name)">{{i.name}}
-                            </button>
-                        </template>
-                      <b>  {{severitySelected}} </b>
-
-                        <hr style="margin:0; height: 5px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+                    
+                    <div class="col-xs-12 col-md-6 col-lg-4">  
+                        <div id="chartdensityTotal" style="width:300px; height:300px; margin:0 auto"></div>
                     </div>
-                  </div>
 
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                      <div id="chartAverageTimeDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <button 
+                            type="button" 
+                            style="margin-top:3px"
+                            class="btn btn-xs"
+                            data-toggle="modal" 
+                            data-target="#rulesDensityModal">Regras
+                        </button>
+                        <oiRulesDensity></oiRulesDensity>
 
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                      <div id="chartAverageTimeTimeline" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
+                        <button 
+                            type="button" 
+                            style="margin-top:3px"
+                            class="btn btn-xs"
+                            data-toggle="modal" 
+                            data-target="#densityAnalyticalModal">Analítico
+                        </button>
+                        <oiShowDensityAnalytical
+                            title="Analítico de 'Densidade'" 
+                            :dataSource="densityFiltered"
+                        ></oiShowDensityAnalytical>
+                      </div>
+                      </div>
+                </center>
+              </div>
+    
+              <div id="averageTime" class="tab-pane fade">
+                <center>
+                    <h4 v-show="averageTimeSystemSelected != ''" style="margin:3px"><b>{{middleAgesDevManufSelected}}</b>
+                        <span id="labelSeverity" v-show="middleAgesDevManufSelected != ''">
+                            ( {{severitySelected}} )
+                        </span>
+                    </h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+                    
+                    <div class="col-xs-12 text-center" style="margin-top:0px">
+                      <div id="buttonsSeveritys" v-show="averageTimeSystemSelected === ''">
+                          <template v-for="i in severitys" v-show="averageTimeSystemSelected == ''">
+                              <button 
+                                  type="button" 
+                                  id="severity"
+                                  :class="'btn btn-xs ' + severitySelected === i ? 'active btn-default' : ''" 
+                                  style="margin-top:0; margin-right:2px; margin-bottom:3px"
+                                  @click="selectSeverity(i.name)">{{i.name}}
+                              </button>
+                          </template>
 
-                  <div class="col-xs-12 col-md-6 col-lg-4">
-                      <div id="chartAverageTimeTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                  </div>
+                          <hr style="margin:0; height: 5px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+                      </div>
+                    </div>
 
-                  <div class="row">
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartAverageTimeDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartAverageTimeTimeline" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartAverageTimeTotal" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <button 
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#averageTimeRegrasModal">Regras
+                          </button>
+                          <oiModal id="averageTimeRegrasModal">
+                              <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Tempo Médio'</strong></h4>
+                              <p style="text-align:left">
+                                  Tempo útil em horas (entre 9 e 18 horas, exceto fins de semana) de defeitos fechados, dividido pela quantidade de defeitos fechados.
+                              </p>
+                              <p style="text-align:left">
+                                  São considerados os tempos de todos os Status e Agentes por onde o defeito passou.
+                              </p>
+                              <p style="text-align:left">
+                                  Os valores de referência para resolução dos defeitos, são: Low: 16h, Medium: 8h e High: 4h.
+                              </p>
+                          </oiModal>
+
+                          <button 
+                            type="button" 
+                            style="margin-top:3px"
+                            class="btn btn-xs"
+                            data-toggle="modal" 
+                            data-target="#averageTimeModal">Analítico
+                        </button>                                
+                        <oiModal id="averageTimeModal">
+                            <oiShowAnalyticalAverageTime
+                                title="Analítico de 'Tempo Médio'" 
+                                :dataSource="averageTimeFiltered"
+                            ></oiShowAnalyticalAverageTime>
+                        </oiModal>                          
+                      </div>
+                    </div>
+                </center>
+              </div>  
+
+              <div id="wrongClassif" class="tab-pane fade">
+                <center class="text-top">
+                    <h4 v-show="wrongClassifDevManufSelected != ''" style="margin:3px"><b>{{wrongClassifDevManufSelected}}</b></h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartWrongClassifDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartWrongClassifTimeline" style= "width:300px; height:300px; margin:0"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartWrongClassifTotal" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="row">
                     <div class="col-sm-12">
                         <button 
                             type="button" 
                             style="margin-top:3px"
                             class="btn btn-xs"
                             data-toggle="modal" 
-                            data-target="#averageTimeRegrasModal">Regras
+                            data-target="#wrongClassifRegrasModal">Regras
                         </button>
-                        <oiModal id="averageTimeRegrasModal">
-                            <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Tempo Médio'</strong></h4>
+                        <oiModal id="wrongClassifRegrasModal">
+                            <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Classif. Errada'</strong></h4>
                             <p style="text-align:left">
-                                Tempo útil em horas (entre 9 e 18 horas, exceto fins de semana) de defeitos fechados, dividido pela quantidade de defeitos fechados.
+                                Quantidade de defeitos fechados, com os campos “Fábrica de Desenv. Ofensora” e “Regra Infringida” preenchidos. Isto é, diferente de vazio.
                             </p>
                             <p style="text-align:left">
-                                São considerados os tempos de todos os Status e Agentes por onde o defeito passou.
+                                Estes campos são imputados manualmente no SGQ, durante o processo de auditoria.
                             </p>
                             <p style="text-align:left">
-                                Os valores de referência para resolução dos defeitos, são: Low: 16h, Medium: 8h e High: 4h.
+                                O valor de referência é 5% do total de defeitos fechados.
                             </p>
-                        </oiModal>
+                        </oiModal> 
 
                         <button 
                           type="button" 
                           style="margin-top:3px"
                           class="btn btn-xs"
                           data-toggle="modal" 
-                          data-target="#averageTimeModal">Analítico
+                          data-target="#wrongClassifModal">Analítico
                       </button>                                
-                      <oiModal id="averageTimeModal">
-                          <oiShowAnalyticalAverageTime
-                              title="Analítico de 'Tempo Médio'" 
-                              :dataSource="averageTimeFiltered"
-                          ></oiShowAnalyticalAverageTime>
-                      </oiModal>                          
-                    </div>
+                      <oiModal id="wrongClassifModal">
+                          <oiShowAnalytical
+                              title="Analítico de 'Classif. Errada'" 
+                              :dataSource="wrongClassifFiltered"
+                          ></oiShowAnalytical>
+                      </oiModal>
+                      </div>
                   </div>
-                   </center>
-                </div>  
+                </center>          
+              </div>
 
-                <div id="wrongClassif" class="tab-pane fade">
-                  <center class="text-top">
-                      <h4 v-show="wrongClassifDevManufSelected != ''" style="margin:3px"><b>{{wrongClassifDevManufSelected}}</b></h4>
-                      <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+              <div id="detectableInDev" class="tab-pane fade">
+                <center class="text-top">
+                    <h4 v-show="detectableInDevDevManufSelected != ''" style="margin:3px"><b>{{detectableInDevDevManufSelected}}</b></h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
 
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartWrongClassifDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartDetectableInDevDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartDetectableInDevTimeline" style= "width:300px; height:300px; margin:0"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartDetectableInDevTotal" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <button 
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#detectableInDevRegrasModal">Regras
+                          </button>
+                          <oiModal id="detectableInDevRegrasModal">
+                              <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Detectáveis em Desenv.'</strong></h4>
+                              <p style="text-align:left">
+                                  Quantidade de defeitos fechados, o campo “Erro Detectável Em Desenvolvimento” igual a "Sim".
+                              </p>
+                              <p style="text-align:left">
+                                  Este campo é imputado manualmente no ALM.
+                              </p>
+                              <p style="text-align:left">
+                                  O valor de referência é 5% do total de defeitos fechados.
+                              </p>
+                          </oiModal>   
+
+                          <button 
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#detectableInDevModal">Analítico
+                          </button>                                
+                          <oiModal id="detectableInDevModal">
+                              <oiShowAnalytical
+                                  title="Analítico de 'Detectáveis em Desenv.'" 
+                                  :dataSource="detectableInDevFiltered"
+                              ></oiShowAnalytical>
+                          </oiModal>                        
                       </div>
+                  </div>
+                </center>          
+              </div>
 
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartWrongClassifTimeline" style= "width:300px; height:300px; margin:0"></div>
-                      </div>
+              <div id="reopened" class="tab-pane fade">
+                <center class="text-top">
+                    <h4 v-show="reopenedDevManufSelected != ''" style="margin:3px"><b>{{reopenedDevManufSelected}}</b></h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
 
-                      <div class="col-xs-12 col-md-6 col-lg-4">
-                          <div id="chartWrongClassifTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartReopenedDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
 
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartReopenedTimeline" style= "width:300px; height:300px; margin:0"></div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartReopenedTotal" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
                       <div class="row">
                       <div class="col-sm-12">
                           <button 
@@ -2719,210 +2848,97 @@
                               style="margin-top:3px"
                               class="btn btn-xs"
                               data-toggle="modal" 
-                              data-target="#wrongClassifRegrasModal">Regras
+                              data-target="#reopenedRegrasModal">Regras
                           </button>
-                          <oiModal id="wrongClassifRegrasModal">
-                              <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Classif. Errada'</strong></h4>
+                          <oiModal id="reopenedRegrasModal">
+                              <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Reabertos'</strong></h4>
                               <p style="text-align:left">
-                                  Quantidade de defeitos fechados, com os campos “Fábrica de Desenv. Ofensora” e “Regra Infringida” preenchidos. Isto é, diferente de vazio.
-                              </p>
-                              <p style="text-align:left">
-                                  Estes campos são imputados manualmente no SGQ, durante o processo de auditoria.
+                                  Quantidade de vezes em que os defeitos fechados passaram pelo Status "REOPEN", divididos pelo total de defeitos fechados multiplicados por 100.
                               </p>
                               <p style="text-align:left">
                                   O valor de referência é 5% do total de defeitos fechados.
                               </p>
-                          </oiModal> 
+                          </oiModal>     
 
                           <button 
-                            type="button" 
-                            style="margin-top:3px"
-                            class="btn btn-xs"
-                            data-toggle="modal" 
-                            data-target="#wrongClassifModal">Analítico
-                        </button>                                
-                        <oiModal id="wrongClassifModal">
-                            <oiShowAnalytical
-                                title="Analítico de 'Classif. Errada'" 
-                                :dataSource="wrongClassifFiltered"
-                            ></oiShowAnalytical>
-                        </oiModal>
-                        </div>
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#reopenedModal">Analítico
+                          </button>
+                          <oiModal id="reopenedModal">
+                              <oiShowAnalytical
+                                  title="Analítico de 'Reabertos'" 
+                                  :dataSource="reopenedFiltered"
+                              ></oiShowAnalytical>
+                          </oiModal> 
+                      </div>    
+                  </div>    
+                </center>          
+              </div>
+
+              <div id="noPrediction" class="tab-pane fade">
+                <center class="text-top">
+                    <h4 v-show="noPredictionDevManufSelected != ''" style="margin:3px"><b>{{noPredictionDevManufSelected}}</b></h4>
+                    <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartNoPredictionDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
                     </div>
-                  </center>          
-                </div>
 
-                <div id="detectableInDev" class="tab-pane fade">
-                  <center class="text-top">
-                      <h4 v-show="detectableInDevDevManufSelected != ''" style="margin:3px"><b>{{detectableInDevDevManufSelected}}</b></h4>
-                      <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
+                    <div class="col-xs-12 col-md-6 col-lg-4 text-top">
+                        <div id="chartNoPredictionTimeline" style= "width:300px; height:300px; margin:0"></div>
+                    </div>
 
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartDetectableInDevDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartDetectableInDevTimeline" style= "width:300px; height:300px; margin:0"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4">
-                          <div id="chartDetectableInDevTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div id="chartNoPredictionTotal" style="width:300px; height:300px; margin:0 auto"></div>
+                    </div>
 
                       <div class="row">
-                        <div class="col-sm-12">
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#detectableInDevRegrasModal">Regras
-                            </button>
-                            <oiModal id="detectableInDevRegrasModal">
-                                <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Detectáveis em Desenv.'</strong></h4>
-                                <p style="text-align:left">
-                                    Quantidade de defeitos fechados, o campo “Erro Detectável Em Desenvolvimento” igual a "Sim".
-                                </p>
-                                <p style="text-align:left">
-                                    Este campo é imputado manualmente no ALM.
-                                </p>
-                                <p style="text-align:left">
-                                    O valor de referência é 5% do total de defeitos fechados.
-                                </p>
-                            </oiModal>   
+                      <div class="col-sm-12">           
+                          <button 
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#noPredictionRegrasModal">Regras
+                          </button>
+                          <oiModal id="noPredictionRegrasModal">
+                              <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Sem Prev. de Solução'</strong></h4>
+                              <p style="text-align:left">
+                                  Quantidade de defeitos fechados, com o campo “Data Prevista Solução Defeito” vazio, divididos pelo total de defeitos fechados multiplicados por 100.
+                              </p>
+                              <p style="text-align:left">
+                                  Este campo “Data Prevista Solução Defeito” é imputado manualmente no ALM.
+                              </p>
+                              <p style="text-align:left">
+                                  O valor de referência é 5% do total de defeitos fechados.
+                              </p>
+                          </oiModal>    
 
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#detectableInDevModal">Analítico
-                            </button>                                
-                            <oiModal id="detectableInDevModal">
-                                <oiShowAnalytical
-                                    title="Analítico de 'Detectáveis em Desenv.'" 
-                                    :dataSource="detectableInDevFiltered"
-                                ></oiShowAnalytical>
-                            </oiModal>                        
-                        </div>
-                    </div>
-                  </center>          
-                </div>
-
-                <div id="reopened" class="tab-pane fade">
-                  <center class="text-top">
-                      <h4 v-show="reopenedDevManufSelected != ''" style="margin:3px"><b>{{reopenedDevManufSelected}}</b></h4>
-                      <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
-
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartReopenedDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartReopenedTimeline" style= "width:300px; height:300px; margin:0"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4">
-                          <div id="chartReopenedTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
-                       <div class="row">
-                        <div class="col-sm-12">
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#reopenedRegrasModal">Regras
-                            </button>
-                            <oiModal id="reopenedRegrasModal">
-                                <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Reabertos'</strong></h4>
-                                <p style="text-align:left">
-                                    Quantidade de vezes em que os defeitos fechados passaram pelo Status "REOPEN", divididos pelo total de defeitos fechados multiplicados por 100.
-                                </p>
-                                <p style="text-align:left">
-                                    O valor de referência é 5% do total de defeitos fechados.
-                                </p>
-                            </oiModal>     
-
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#reopenedModal">Analítico
-                            </button>
-                            <oiModal id="reopenedModal">
-                                <oiShowAnalytical
-                                    title="Analítico de 'Reabertos'" 
-                                    :dataSource="reopenedFiltered"
-                                ></oiShowAnalytical>
-                            </oiModal> 
-                        </div>    
-                    </div>    
-                  </center>          
-                </div>
-
-                <div id="noPrediction" class="tab-pane fade">
-                  <center class="text-top">
-                      <h4 v-show="noPredictionDevManufSelected != ''" style="margin:3px"><b>{{noPredictionDevManufSelected}}</b></h4>
-                      <hr style="margin:0; height: 7px; border: 0; box-shadow: 0 7px 7px -7px #d9d9d9 inset">
-
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartNoPredictionDevManuf" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4 text-top">
-                          <div id="chartNoPredictionTimeline" style= "width:300px; height:300px; margin:0"></div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6 col-lg-4">
-                          <div id="chartNoPredictionTotal" style="width:300px; height:300px; margin:0 auto"></div>
-                      </div>
-
-                       <div class="row">
-                        <div class="col-sm-12">           
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#noPredictionRegrasModal">Regras
-                            </button>
-                            <oiModal id="noPredictionRegrasModal">
-                                <h4 style="margin-top:0; text-align:center"><strong>Regras para cálculo de 'Sem Prev. de Solução'</strong></h4>
-                                <p style="text-align:left">
-                                    Quantidade de defeitos fechados, com o campo “Data Prevista Solução Defeito” vazio, divididos pelo total de defeitos fechados multiplicados por 100.
-                                </p>
-                                <p style="text-align:left">
-                                    Este campo “Data Prevista Solução Defeito” é imputado manualmente no ALM.
-                                </p>
-                                <p style="text-align:left">
-                                    O valor de referência é 5% do total de defeitos fechados.
-                                </p>
-                            </oiModal>    
-
-                            <button 
-                                type="button" 
-                                style="margin-top:3px"
-                                class="btn btn-xs"
-                                data-toggle="modal" 
-                                data-target="#noPredictionModal">Analítico
-                            </button>
-                            <oiModal id="noPredictionModal">
-                                <oiShowAnalytical
-                                    title="Analítico de 'Sem Prev. de Solução'" 
-                                    :dataSource="noPredictionFiltered"
-                                ></oiShowAnalytical>
-                            </oiModal>                     
-                                                
-                        </div> 
-                    </div> 
-                  </center>          
-                </div>
+                          <button 
+                              type="button" 
+                              style="margin-top:3px"
+                              class="btn btn-xs"
+                              data-toggle="modal" 
+                              data-target="#noPredictionModal">Analítico
+                          </button>
+                          <oiModal id="noPredictionModal">
+                              <oiShowAnalytical
+                                  title="Analítico de 'Sem Prev. de Solução'" 
+                                  :dataSource="noPredictionFiltered"
+                              ></oiShowAnalytical>
+                          </oiModal>                     
+                                              
+                      </div> 
+                  </div> 
+                </center>          
+              </div>
+            </div>
         </div>
-    </div>
-   </div> 
-  </div>
+    </div> 
+  </div> 
 </template>
 
 <style scoped>

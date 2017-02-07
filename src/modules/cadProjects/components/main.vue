@@ -3,7 +3,18 @@
   import oiEdit from './edit.vue'
   import oiShow from 'components/project/show.vue'
   import services from '../servicesVueResource'
-  // import { getProjects, updateProject } from '../servicesAxios'
+
+  import servicesDensity from 'src/services/density'
+  import getDensityTotal from 'src/libs/getDensityTotal'
+
+  import servicesAverangeTime from 'src/services/averangeTime'
+  import getAverangeTimeTotal from 'src/libs/getAverangeTimeTotal'
+
+  import servicesReopened from 'src/services/reopened'
+  import getReopenedTotal from 'src/libs/getReopenedTotal'
+
+  import servicesDetectableInDev from 'src/services/detectableInDev'
+  import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
 
   export default {
     name: 'cadProjectsMain',
@@ -28,7 +39,19 @@
         projectFilterTerm: '',
 
         projects: [],
-        projectsFilteredByText: []
+        projectsFilteredByText: [],
+
+        densityByProject: [],
+        densityTotal: {},
+
+        averangeTimeByProject: [],
+        averangeTimeTotal: {},
+
+        reopenedByProject: [],
+        reopenedTotal: {},
+
+        detectableInDevByProject: [],
+        detectableInDevTotal: {}
       }
     },
 
@@ -81,6 +104,10 @@
       selectItem (project, state) {
         this.project = project
         this.state = state
+        this.loadDensityData(this.project)
+        this.loadAverangeTimeData(this.project)
+        this.loadReopenedData(this.project)
+        this.loadDetectableInDevData(this.project)
       },
 
       showItem () {
@@ -89,6 +116,34 @@
 
       editItem () {
         this.state = 'edit'
+      },
+
+      loadDensityData (project) {
+        servicesDensity.getByProject(project).then(resp => {
+          this.densityByProject = resp.data
+          this.densityTotal = getDensityTotal(resp.data)
+        })
+      },
+
+      loadAverangeTimeData (project) {
+        servicesAverangeTime.getByProject(project).then(resp => {
+          this.averangeTimeByProject = resp.data
+          this.averangeTimeTotal = getAverangeTimeTotal(resp.data, 'HIGH')
+        })
+      },
+
+      loadReopenedData (project) {
+        servicesReopened.getByProject(project).then(resp => {
+          this.reopenedByProject = resp.data
+          this.reopenedTotal = getReopenedTotal(resp.data, 5)
+        })
+      },
+
+      loadDetectableInDevData (project) {
+        servicesDetectableInDev.getByProject(project).then(resp => {
+          this.detectableInDevByProject = resp.data
+          this.detectableInDevTotal = getDetectableInDevTotal(resp.data, 5)
+        })
       }
     }
   }
@@ -154,12 +209,21 @@
     <oiEdit 
       v-show="this.state=='edit'"
       :project="project"
+      :densityTotal="densityTotal"
+      :averangeTimeTotal="averangeTimeTotal"
+      :reopenedTotal="reopenedTotal"
+      :detectableInDevTotal="detectableInDevTotal"
     />
 
     <oiShow
       v-show="this.state=='show'"
       :project="project"
+      :densityTotal="densityTotal"
+      :averangeTimeTotal="averangeTimeTotal"
+      :reopenedTotal="reopenedTotal"
+      :detectableInDevTotal="detectableInDevTotal"
     />
+    
   </div>
 </template>
 

@@ -6,7 +6,7 @@ const isLogged = () => store.getters.isLogged
 
 export default (to, from, next) => {
   if (isCadProjectsRoute(to) && !isLogged()) {
-    next('/auth')
+    next('/auth?to=' + to.name)
   } else {
     next()
   }

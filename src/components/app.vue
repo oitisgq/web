@@ -29,7 +29,6 @@
   <div id="app">
     <oiHeader/>
     <!-- <pre> {{myData | json}}</pre> -->
-    
     <router-view/>
   </div>
 </template>

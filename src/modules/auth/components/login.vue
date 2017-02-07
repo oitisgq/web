@@ -8,8 +8,13 @@
         user: {
           networkLogin: '',
           password: ''
-        }
+        },
+        to: ''
       }
+    },
+    mounted () {
+      console.log('Login - mounted')
+      this.to = this.$route.query.to
     },
     methods: {
       ...mapActions(['attemptLogin']),
@@ -17,7 +22,7 @@
         // this.$store.dispatch('attemptLogin', { ...this.user })
         this.attemptLogin({ ...this.user })
           .then(() => {
-            this.$router.push('/')
+            this.$router.push('/' + this.to)
           })
 
         /*
@@ -108,22 +113,28 @@
 
 <template>
   <div id="authLogin" class="container">
-      <div class="col-md-6">
-          <div class="form-group">
-              <label>Login de Rede</label>
-              <input type="text" class="form-control" v-model="user.networkLogin">
-          </div>
-          <div class="form-group">
-              <label>Senha</label>
-              <input type="password" class="form-control" v-model="user.password">
-          </div>
-          <div class="col-xs-12 text-center">
-              <button 
-                class="btn btn-default btn-sm" 
-                :disabled="!isUserValid" 
-                @click="doLogin">Autenticar
-              </button>
-          </div>
+    <div class="row">
+      <div class="col-xs-5">
+
+        <div class="form-group">
+            <label>Login de Rede</label>
+            <input type="text" class="form-control" v-model="user.networkLogin">
+        </div>
+
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" class="form-control" v-model="user.password">
+        </div>
+
+        <div class="col-xs-12 text-center">
+            <button 
+              class="btn btn-default btn-sm" 
+              :disabled="!isUserValid" 
+              @click="doLogin">Autenticar
+            </button>
+        </div>
+
       </div>
+    </div>
   </div>
 </template>

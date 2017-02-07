@@ -1,8 +1,20 @@
 <script>
   import oiGrid from './grid.vue'
   import oiShow from 'components/project/show.vue'
+
+  import servicesProject from 'src/services/project'
   
-  import services from '../servicesVueResource'
+  import servicesDensity from 'src/services/density'
+  import getDensityTotal from 'src/libs/getDensityTotal'
+
+  import servicesAverangeTime from 'src/services/averangeTime'
+  import getAverangeTimeTotal from 'src/libs/getAverangeTimeTotal'
+
+  import servicesReopened from 'src/services/reopened'
+  import getReopenedTotal from 'src/libs/getReopenedTotal'
+
+  import servicesDetectableInDev from 'src/services/detectableInDev'
+  import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
 
   export default {
     name: 'ProjectsMain',
@@ -12,9 +24,7 @@
     data () {
       return {
         project: {},
-
         state: 'search',
-
         filterProperties: [
             {name: 'subprojectDelivery'},
             {name: 'name'},
@@ -26,19 +36,76 @@
         projectFilterTerm: '',
 
         projects: [],
-        projectsFilteredByTerm: []
+        projectsFilteredByTerm: [],
+
+        densityByProject: [],
+        densityTotal: {},
+
+        averangeTimeByProject: [],
+        averangeTimeTotal: {},
+
+        reopenedByProject: [],
+        reopenedTotal: {},
+
+        detectableInDevByProject: [],
+        detectableInDevTotal: {}
       }
     },
 
     created () {
-      this.loadData()
+      this.loadInitialData()
     },
 
     methods: {
-      loadData () {
-        services.getAll({}).then(resp => {
+      loadInitialData () {
+        servicesProject.getAll({}).then(resp => {
           this.projects = resp.data
           this.projectsFilteredByTerm = resp.data
+        })
+      },
+
+      selectItem (item, state) {
+        this.project = item
+        this.state = state
+        this.loadDensityData(this.project)
+        this.loadAverangeTimeData(this.project)
+        this.loadReopenedData(this.project)
+        this.loadDetectableInDevData(this.project)
+      },
+
+      searchItem () {
+        this.state = 'search'
+      },
+
+      showItem () {
+        this.state = 'show'
+      },
+
+      loadDensityData (project) {
+        servicesDensity.getByProject(project).then(resp => {
+          this.densityByProject = resp.data
+          this.densityTotal = getDensityTotal(resp.data)
+        })
+      },
+
+      loadAverangeTimeData (project) {
+        servicesAverangeTime.getByProject(project).then(resp => {
+          this.averangeTimeByProject = resp.data
+          this.averangeTimeTotal = getAverangeTimeTotal(resp.data, 'HIGH')
+        })
+      },
+
+      loadReopenedData (project) {
+        servicesReopened.getByProject(project).then(resp => {
+          this.reopenedByProject = resp.data
+          this.reopenedTotal = getReopenedTotal(resp.data, 5)
+        })
+      },
+
+      loadDetectableInDevData (project) {
+        servicesDetectableInDev.getByProject(project).then(resp => {
+          this.detectableInDevByProject = resp.data
+          this.detectableInDevTotal = getDetectableInDevTotal(resp.data, 5)
         })
       },
 
@@ -57,21 +124,6 @@
         } else {
           this.projectsFilteredByTerm = this.projects
         }
-      },
-
-      selectItem (item, state) {
-        this.project = item
-
-        console.log(this.project.subproject)
-        this.state = state
-      },
-
-      searchItem () {
-        this.state = 'search'
-      },
-
-      showItem () {
-        this.state = 'show'
       }
     }
   }
@@ -92,7 +144,7 @@
             v-show="this.state !== 'search'" 
             @click="searchItem"
             data-toggle="tooltip"
-            title="Pesquisar">
+            title="Pesquisa">
             <span class="glyphicon glyphicon-search"></span>
           </a>
         </div>
@@ -101,7 +153,7 @@
       <!-- CAMPO PESQUISA  -->
       <div class="row well well-sm oi-well" v-show="this.state=='search'">
         <input type="text"
-            placeholder="Informe o filtro! Ex: multip+verde"
+            placeholder="Informe os filtros! Ex: multip+verd+2017"
             v-model="projectFilterTerm"
             @keyup="filterProjects"/>
       </div>
@@ -113,10 +165,14 @@
         @onSelectItem="selectItem"
       />
 
-      <!-- EXIBIÇÃO ITEM SELECIONADO  -->
+      <!-- EXIBIÇÃO ITENS SELECIONADOS  -->
       <oiShow
         v-show="this.state=='show'"
         :project="project"
+        :densityTotal="densityTotal"
+        :averangeTimeTotal="averangeTimeTotal"
+        :reopenedTotal="reopenedTotal"
+        :detectableInDevTotal="detectableInDevTotal"
       />
 
     </div>

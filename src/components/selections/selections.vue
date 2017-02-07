@@ -47,6 +47,7 @@
         data-toggle="modal" 
         :data-target="'#modalEdit' + idChild">Seleção
     </button>    
+    
     <oiModal :id="'modalEdit' + idChild">
       <editSelections
           :id="idChild"
@@ -69,6 +70,7 @@
         data-toggle="modal" 
         :data-target="'#modalShow' + idChild">Selecionados
     </button>       
+
     <oiModal :id="'modalShow' + idChild">
       <showSelections
           :title="title"
