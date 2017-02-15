@@ -4,7 +4,12 @@ export default function () {
       type: 'gauge',
       backgroundColor: 'transparent'
     },
-    title: { text: '', y: 0, style: { fontSize: 14, fontWeight: 'bold' } },
+    // title: { text: '', y: 0, style: { fontSize: 14, fontWeight: 'bold' } },
+    title: {
+      text: 'title',
+      margin: 0,
+      style: { fontSize: 13, fontWeight: 'bold', color: '#6b6b47' }
+    },
     credits: { enabled: false },
     exporting: { enabled: false },
     lang: { noData: 'Sem dados para mostrar' },

@@ -1,5 +1,6 @@
 <script>
   import Vue from 'vue'
+
   import VueHighcharts from 'vue-highcharts'
   import Highcharts from 'highcharts/highstock'
 
@@ -58,7 +59,6 @@
       this.options.series.name = 'Densidade'
       this.options.plotOptions.bar.dataLabels.format = '{point.y:.0f}'
 
-      console.log('densityByDevManuf mounted')
       // this.options.xAxis.categories = this.categories
     },
 

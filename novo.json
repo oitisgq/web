@@ -1,0 +1,293 @@
+{ 
+    "columns": [ "10-06-16", "09-06-16", "07-06-16", "06-06-16", "03-06-16" ], 
+    "rows": [
+        { 
+            "name": "Planejado", 
+            "valuesAcum": [
+                { "date": "10-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                } 
+            ], 
+            "valuesDay": [ 
+                { "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                } 
+            ]
+        }, { 
+            "name": "Realizado", 
+            "valuesAcum": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 273, 
+                    "percenty": 99.64 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 273, 
+                    "percenty": 99.64 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 272, 
+                    "percenty": 99.27 
+                } 
+            ], 
+            "valuesDay": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 1, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 1, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 3, 
+                    "percenty": 0 
+                } 
+            ] 
+        }, { 
+            "name": "Produtividade", 
+            "valuesAcum": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 309, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 309, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 308, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 307, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 306, 
+                    "percenty": 0 
+                } 
+            ], 
+            "valuesDay": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 1, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 1, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 1, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 6, 
+                    "percenty": 0 
+                } 
+            ] 
+        }, { 
+            "name": "GAP", 
+            "valuesAcum": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 1, 
+                    "percenty": 0.36 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 1, 
+                    "percenty": 0.36 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 2, 
+                    "percenty": 0.73 
+                } 
+            ], 
+            "valuesDay": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": 
+                    "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                } 
+            ] 
+        }, { 
+            "name": "Valid. Evid. TI", 
+            "valuesAcum": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 274, 
+                    "percenty": 100 
+                } 
+            ], 
+            "valuesDay": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                } 
+            ] 
+        }, { 
+            "name": "Valid. Evid. UAT", 
+            "valuesAcum": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 70, 
+                    "percenty": 100 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                } 
+            ], 
+            "valuesDay": [ 
+                { 
+                    "date": "10-06-16", 
+                    "value": 70, 
+                    "percenty": 0 
+                }, { 
+                    "date": "09-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "07-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "06-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                }, { 
+                    "date": "03-06-16", 
+                    "value": 0, 
+                    "percenty": 0 
+                } 
+            ] 
+        } 
+    ] 
+}

@@ -16,6 +16,10 @@
   import servicesDetectableInDev from 'src/services/detectableInDev'
   import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
 
+  import servicesStatusGroupDay from 'src/services/statusGroupDay'
+  import servicesStatusGroupMonth from 'src/services/statusGroupMonth'
+  import getStatusTrans from 'src/libs/getStatusTrans'
+
   export default {
     name: 'cadProjectsMain',
 
@@ -51,7 +55,11 @@
         reopenedTotal: {},
 
         detectableInDevByProject: [],
-        detectableInDevTotal: {}
+        detectableInDevTotal: {},
+
+        statusByProjectGroupDayTop5: {},
+        statusByProjectGroupDayTop30: {},
+        statusByProjectGroupMonth: {}
       }
     },
 
@@ -108,6 +116,7 @@
         this.loadAverangeTimeData(this.project)
         this.loadReopenedData(this.project)
         this.loadDetectableInDevData(this.project)
+        this.loadStatus(this.project)
       },
 
       showItem () {
@@ -144,6 +153,16 @@
           this.detectableInDevByProject = resp.data
           this.detectableInDevTotal = getDetectableInDevTotal(resp.data, 5)
         })
+      },
+
+      loadStatus (project) {
+        servicesStatusGroupDay.getByProject(project).then(resp => {
+          this.statusByProjectGroupDayTop30 = getStatusTrans(resp.data.slice(0, 29).sort((a, b) => a.dateOrder > b.dateOrder ? 1 : (a.dateOrder < b.dateOrder ? -1 : 0)))
+          this.statusByProjectGroupDayTop5 = getStatusTrans(resp.data.slice(0, 4))
+        })
+        servicesStatusGroupMonth.getByProject(project).then(resp => {
+          this.statusByProjectGroupMonth = getStatusTrans(resp.data)
+        })
       }
     }
   }
@@ -155,7 +174,7 @@
 
     <div class="row">
       <div class="col-xs-6">
-        <label>Cadastro de Projetos</label>
+        <label>Cadastro de Status de Projetos</label>
       </div>
       
       <div class="col-xs-6 text-right">
@@ -222,7 +241,10 @@
       :averangeTimeTotal="averangeTimeTotal"
       :reopenedTotal="reopenedTotal"
       :detectableInDevTotal="detectableInDevTotal"
-    />
+      :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
+      :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
+      :statusByProjectGroupMonth="statusByProjectGroupMonth"
+    />    
     
   </div>
 </template>

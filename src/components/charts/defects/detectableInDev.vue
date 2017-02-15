@@ -34,7 +34,7 @@
         let limitSupRed = limitSupGreen > this.value.qtyTotal ? limitSupGreen : this.value.qtyTotal
 
         this.parameters.title.text = 'Detectável em Desenv.'
-        this.parameters.yAxis.title.text = 'Qt.<br>Defeitos'
+        this.parameters.yAxis.title.text = 'Defeitos'
         this.parameters.plotOptions.gauge.dataLabels.format = '{point.y:.0f} def'
         this.parameters.yAxis.max = limitSupRed
         this.parameters.yAxis.plotBands = [

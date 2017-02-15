@@ -35,6 +35,7 @@
 
         this.parameters.title.text = 'Reabertos'
         this.parameters.yAxis.title.text = '%'
+        this.parameters.plotOptions.gauge.dataLabels.format = '{point.y:.0f}%'
         this.parameters.yAxis.max = (this.value.percentReopened <= 100) ? 100 : this.value.percentReopened
         this.parameters.yAxis.plotBands = [
             {from: 0, to: limitSupGreen, color: '#00CC00'},

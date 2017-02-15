@@ -59,6 +59,7 @@
             type="button" 
             id="Confirmar" 
             class="btn btn-xs" 
+            data-dismiss="modal"
             v-show="isUpdate"
             v-on:click="confirm()">Confirmar
         </button>

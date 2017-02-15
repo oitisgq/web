@@ -32,6 +32,7 @@
       loadParameters () {
         this.parameters.title.text = 'Densidade'
         this.parameters.yAxis.title.text = '%'
+        this.parameters.plotOptions.gauge.dataLabels.format = '{point.y:.0f}%'
         this.parameters.yAxis.max = (this.value.density <= 100) ? 100 : this.value.density
 
         this.parameters.yAxis.plotBands = [

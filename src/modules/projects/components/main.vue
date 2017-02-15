@@ -16,6 +16,17 @@
   import servicesDetectableInDev from 'src/services/detectableInDev'
   import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
 
+  import servicesStatusGroupDay from 'src/services/statusGroupDay'
+  import servicesStatusGroupMonth from 'src/services/statusGroupMonth'
+  import servicesDefectsStatus from 'src/services/defectsStatus'
+
+  import servicesDefectsGroupOrigin from 'src/services/defectsGroupOrigin'
+  import servicesCtsImpactedByDefects from 'src/services/ctsImpactedByDefects'
+  import servicesDefectsOpenInTestManuf from 'src/services/defectsOpenInTestManuf'
+  import servicesDefectsOpenInDevManuf from 'src/services/defectsOpenInDevManuf'
+
+  import getStatusTrans from 'src/libs/getStatusTrans'
+
   export default {
     name: 'ProjectsMain',
 
@@ -48,7 +59,17 @@
         reopenedTotal: {},
 
         detectableInDevByProject: [],
-        detectableInDevTotal: {}
+        detectableInDevTotal: {},
+
+        statusByProjectGroupDayTop5: {},
+        statusByProjectGroupDayTop30: {},
+        statusByProjectGroupMonth: {},
+
+        defectStatus: [],
+        defectGroupOrigin: [],
+        ctsImpactedByDefects: [],
+        defectsOpenInTestManuf: [],
+        defectsOpenInDevManuf: []
       }
     },
 
@@ -71,6 +92,12 @@
         this.loadAverangeTimeData(this.project)
         this.loadReopenedData(this.project)
         this.loadDetectableInDevData(this.project)
+        this.loadStatus(this.project)
+        this.loadDefectsStatus(this.project)
+        this.loadDefectsGroupOrigin(this.project)
+        this.loadCtsImpactedByDefects(this.project)
+        this.loadDefectsOpenInTestManuf(this.project)
+        this.loadDefectsOpenInDevManuf(this.project)
       },
 
       searchItem () {
@@ -106,6 +133,46 @@
         servicesDetectableInDev.getByProject(project).then(resp => {
           this.detectableInDevByProject = resp.data
           this.detectableInDevTotal = getDetectableInDevTotal(resp.data, 5)
+        })
+      },
+
+      loadStatus (project) {
+        servicesStatusGroupDay.getByProject(project).then(resp => {
+          this.statusByProjectGroupDayTop30 = getStatusTrans(resp.data.slice(0, 29).sort((a, b) => a.dateOrder > b.dateOrder ? 1 : (a.dateOrder < b.dateOrder ? -1 : 0)))
+          this.statusByProjectGroupDayTop5 = getStatusTrans(resp.data.slice(0, 4))
+        })
+        servicesStatusGroupMonth.getByProject(project).then(resp => {
+          this.statusByProjectGroupMonth = getStatusTrans(resp.data)
+        })
+      },
+
+      loadDefectsStatus (project) {
+        servicesDefectsStatus.getByProject(project).then(resp => {
+          this.defectStatus = resp.data
+        })
+      },
+
+      loadDefectsGroupOrigin (project) {
+        servicesDefectsGroupOrigin.getByProject(project).then(resp => {
+          this.defectGroupOrigin = resp.data
+        })
+      },
+
+      loadCtsImpactedByDefects (project) {
+        servicesCtsImpactedByDefects.getByProject(project).then(resp => {
+          this.ctsImpactedByDefects = getStatusTrans(resp.data)
+        })
+      },
+
+      loadDefectsOpenInTestManuf (project) {
+        servicesDefectsOpenInTestManuf.getByProject(project).then(resp => {
+          this.defectsOpenInTestManuf = resp.data
+        })
+      },
+
+      loadDefectsOpenInDevManuf (project) {
+        servicesDefectsOpenInDevManuf.getByProject(project).then(resp => {
+          this.defectsOpenInDevManuf = resp.data
         })
       },
 
@@ -166,6 +233,8 @@
       />
 
       <!-- EXIBIÇÃO ITENS SELECIONADOS  -->
+      <!--  :ctsImpactedByDefects="ctsImpactedByDefects" -->
+
       <oiShow
         v-show="this.state=='show'"
         :project="project"
@@ -173,6 +242,13 @@
         :averangeTimeTotal="averangeTimeTotal"
         :reopenedTotal="reopenedTotal"
         :detectableInDevTotal="detectableInDevTotal"
+        :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
+        :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
+        :statusByProjectGroupMonth="statusByProjectGroupMonth"
+        :defectStatus="defectStatus"
+        :defectGroupOrigin="defectGroupOrigin"
+        :defectsOpenInTestManuf="defectsOpenInTestManuf"
+        :defectsOpenInDevManuf="defectsOpenInDevManuf"
       />
 
     </div>

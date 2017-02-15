@@ -78,7 +78,7 @@
                 </td>
 
                 <td class="text-center" style="padding:0">
-                    <font size="2px">{{item.classification.substring(0,3)}}</font>
+                    <font size="2px">{{item.classification ? item.classification.substring(0,3) : ''}}</font>
                 </td>
 
                 <td class="text-center" style="padding:0">

@@ -3,13 +3,18 @@ export default function () {
     chart: {
       type: 'bar',
       backgroundColor: 'transparent',
+      style: { fontFamily: 'arial' },
       events: {}
     },
-    title: { text: '', y: 0, style: { fontSize: 14, fontWeight: 'bold' } },
+    title: {
+      text: 'title',
+      margin: 0,
+      style: { fontSize: 12, fontWeight: 'bold', color: '#6b6b47' }
+    },
     credits: { enabled: false },
     exporting: { enabled: false },
-    lang: { noData: 'Sem dados para mostrar' },
-    xAxis: { type: 'category', labels: { style: { fontSize: '9px' } } },
+    lang: { drillUpText: '◁', noData: 'Sem dados!' },
+    xAxis: { type: 'category', labels: { style: { fontSize: '10px' } } },
     yAxis: { title: { text: '' }, plotLines: [ { value: 0, width: 1, color: '#FF8080' } ] },
     tooltip: { pointFormat: '' },
     plotOptions: {

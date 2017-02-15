@@ -6,8 +6,9 @@ import { routes as dashboard } from './dashboard'
 import { routes as defectMonitor } from './defectMonitor'
 import { routes as indicatorsOfDevelopment } from './indicatorsOfDevelopment'
 import { routes as indicatorsOfTest } from './indicatorsOfTest'
-import { routes as bptEspValidacaoPlano } from './bptEspValidacaoPlano'
-import { routes as bptEspExecucaoTestes } from './bptEspExecucaoTestes'
+import { routes as bptCadastroStatus } from './bptCadastroStatus'
+import { routes as bptValidacaoPlano } from './bptValidacaoPlano'
+import { routes as bptAcompanhamentoExecucao } from './bptAcompanhamentoExecucao'
 import { routes as cadGroupersSpecialProject } from './cadGroupersSpecialProject'
 import { routes as cadProjects } from './cadProjects'
 import { routes as cadAssociationOfSpecialProjectsToGroupers } from './cadAssociationOfSpecialProjectsToGroupers'
@@ -22,8 +23,9 @@ export default [
   ...defectMonitor,
   ...indicatorsOfDevelopment,
   ...indicatorsOfTest,
-  ...bptEspValidacaoPlano,
-  ...bptEspExecucaoTestes,
+  ...bptCadastroStatus,
+  ...bptValidacaoPlano,
+  ...bptAcompanhamentoExecucao,
   ...cadGroupersSpecialProject,
   ...cadProjects,
   ...cadAssociationOfSpecialProjectsToGroupers,
