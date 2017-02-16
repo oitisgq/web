@@ -21,9 +21,9 @@
   import servicesDefectsStatus from 'src/services/defectsStatus'
 
   import servicesDefectsGroupOrigin from 'src/services/defectsGroupOrigin'
-  import servicesCtsImpactedByDefects from 'src/services/ctsImpactedByDefects'
   import servicesDefectsOpenInTestManuf from 'src/services/defectsOpenInTestManuf'
   import servicesDefectsOpenInDevManuf from 'src/services/defectsOpenInDevManuf'
+  import servicesCtsImpactedXDefects from 'src/services/ctsImpactedXDefects'
 
   import getStatusTrans from 'src/libs/getStatusTrans'
 
@@ -67,9 +67,9 @@
 
         defectStatus: [],
         defectGroupOrigin: [],
-        ctsImpactedByDefects: [],
         defectsOpenInTestManuf: [],
-        defectsOpenInDevManuf: []
+        defectsOpenInDevManuf: [],
+        ctsImpactedXDefects: []
       }
     },
 
@@ -95,9 +95,10 @@
         this.loadStatus(this.project)
         this.loadDefectsStatus(this.project)
         this.loadDefectsGroupOrigin(this.project)
-        this.loadCtsImpactedByDefects(this.project)
+        this.loadCtsImpactedXDefects(this.project)
         this.loadDefectsOpenInTestManuf(this.project)
         this.loadDefectsOpenInDevManuf(this.project)
+        this.loadCtsImpactedXDefects(this.project)
       },
 
       searchItem () {
@@ -158,12 +159,6 @@
         })
       },
 
-      loadCtsImpactedByDefects (project) {
-        servicesCtsImpactedByDefects.getByProject(project).then(resp => {
-          this.ctsImpactedByDefects = getStatusTrans(resp.data)
-        })
-      },
-
       loadDefectsOpenInTestManuf (project) {
         servicesDefectsOpenInTestManuf.getByProject(project).then(resp => {
           this.defectsOpenInTestManuf = resp.data
@@ -173,6 +168,12 @@
       loadDefectsOpenInDevManuf (project) {
         servicesDefectsOpenInDevManuf.getByProject(project).then(resp => {
           this.defectsOpenInDevManuf = resp.data
+        })
+      },
+
+      loadCtsImpactedXDefects (project) {
+        servicesCtsImpactedXDefects.getByProject(project).then(resp => {
+          this.ctsImpactedXDefects = resp.data
         })
       },
 
@@ -233,7 +234,7 @@
       />
 
       <!-- EXIBIÇÃO ITENS SELECIONADOS  -->
-      <!--  :ctsImpactedByDefects="ctsImpactedByDefects" -->
+      <!--  :ctsImpactedXDefects="ctsImpactedXDefects" -->
 
       <oiShow
         v-show="this.state=='show'"
@@ -249,6 +250,7 @@
         :defectGroupOrigin="defectGroupOrigin"
         :defectsOpenInTestManuf="defectsOpenInTestManuf"
         :defectsOpenInDevManuf="defectsOpenInDevManuf"
+        :ctsImpactedXDefects="ctsImpactedXDefects"
       />
 
     </div>

@@ -4,14 +4,13 @@
   import oiChartAverangeTimeTotal from 'components/charts/defects/averangeTimeTotal'
   import oiChartDetectableInDev from 'components/charts/defects/detectableInDev'
   import oiChartExecutionProject from 'components/charts/execution/project'
-  import oiOpenedXClosedXCancelled from 'components/charts/defects/openedXClosedXCancelled'
-  import oiGroupOrigin from 'components/charts/defects/groupOrigin'
+  import oiChartOpenedXClosedXCancelled from 'components/charts/defects/openedXClosedXCancelled'
+  import oiChartGroupOrigin from 'components/charts/defects/groupOrigin'
+  import oiChartCtsImpactedXDefects from 'components/charts/ctsImpactedXDefects'
 
   import oiGridMonitAcum from './gridMonitAcum'
   import oiGridMonitDay from './gridMonitDay'
   import oiGridDefectsOpen from './gridDefectsOpen'
-
-  import oiModal2 from 'components/modal2'
 
   export default {
     name: 'projectShow',
@@ -24,10 +23,10 @@
       oiChartExecutionProject,
       oiGridMonitAcum,
       oiGridMonitDay,
-      oiOpenedXClosedXCancelled,
-      oiGroupOrigin,
+      oiChartOpenedXClosedXCancelled,
+      oiChartGroupOrigin,
       oiGridDefectsOpen,
-      oiModal2
+      oiChartCtsImpactedXDefects
     },
 
     // ctsImpactedByDefects: { type: Object },
@@ -44,7 +43,8 @@
       defectStatus: { type: Array },
       defectGroupOrigin: { type: Array },
       defectsOpenInTestManuf: { type: Array },
-      defectsOpenInDevManuf: { type: Array }
+      defectsOpenInDevManuf: { type: Array },
+      ctsImpactedXDefects: { type: Array }
     },
 
     data () {
@@ -80,11 +80,6 @@
   <div id="projects">
 
     <button @click="showModal = true">New Post</button>
-
-    <oiModal2 :show.sync="showModal" :on-close="close">
-      sdfasdlfk jsdlkfj ldsjf aldsjf adsf
-    </oiModal2>
-
 
     <div id="cabecalho" class="row well well-sm oi-well" >
       <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
@@ -242,13 +237,13 @@
 
               <div id="defects" class="tab-pane fade">
                   <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <oiOpenedXClosedXCancelled 
+                      <oiChartOpenedXClosedXCancelled 
                         title = "Abertos X Fechados X Cancelados" 
                         :defectStatus="defectStatus" 
                       />
                   </div>
                   <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <oiGroupOrigin 
+                      <oiChartGroupOrigin 
                         title = "Fechados Por Origem"
                         :data = "defectGroupOrigin"
                       />
@@ -276,6 +271,14 @@
                     />
                   </div>
 
+                  <div class="row">
+                    <div class="col-xs-12 text-center" style="padding-top:10px" v-show="defectsOpenInDevManuf.length > 0">
+                        <oiChartCtsImpactedXDefects 
+                          title = "CTs Impactados X Defeitos Abertos" 
+                          :dataSource="ctsImpactedXDefects" 
+                        />
+                    </div>
+                  </div>
               </div>
 
           </div>
