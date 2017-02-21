@@ -14,11 +14,7 @@
 
 <template>
   <div id="authMain" class="container">
-
-
-            <h3>Autenticação</h3><br>
-            <login/>
-
-
+    <h3>Autenticação</h3><br>
+    <login/>
   </div>
 </template>

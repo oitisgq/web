@@ -2,9 +2,9 @@ export default function () {
   return {
     chart: {
       type: 'pie',
+      zoomType: 'xy',
       backgroundColor: 'transparent'
     },
-
     title: {
       text: 'title',
       margin: 0,
@@ -17,7 +17,7 @@ export default function () {
 
     credits: { enabled: false },
     exporting: { enabled: false },
-    lang: { noData: 'Sem dados para mostrar' },
+    lang: { noData: 'Sem dados!' },
 
     navigation: {
       buttonOptions: {
@@ -33,7 +33,7 @@ export default function () {
         dataLabels: {
           enabled: true,
           format: '{point.name}',
-          style: { fontFamily: 'arial', fontSize: '11px' }
+          style: { fontFamily: 'arial', fontSize: '11px', fontWeight: 'normal' }
         }
       }
     },

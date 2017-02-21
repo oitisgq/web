@@ -2,6 +2,7 @@ export default function () {
   return {
     chart: {
       type: 'bar',
+      zoomType: 'xy',
       backgroundColor: 'transparent',
       style: { fontFamily: 'arial' },
       events: {}

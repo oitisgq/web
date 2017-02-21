@@ -20,7 +20,7 @@
       "enabled":false
    },
    "lang":{  
-      "noData":"Sem dados para mostrar"
+      "noData":"Sem dados!"
    },
    "xAxis":{  
       "type":"",

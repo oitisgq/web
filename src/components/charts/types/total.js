@@ -12,7 +12,7 @@ export default function () {
     },
     credits: { enabled: false },
     exporting: { enabled: false },
-    lang: { noData: 'Sem dados para mostrar' },
+    lang: { noData: 'Sem dados!' },
     yAxis: {
       min: 0,
       max: 100,

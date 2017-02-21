@@ -11,7 +11,7 @@ export default function () {
     },
     credits: { enabled: false },
     exporting: { enabled: false },
-    lang: { drillUpText: '◁', noData: 'Sem dados para mostrar' },
+    lang: { drillUpText: '◁', noData: 'Sem dados!' },
     xAxis: { type: 'category', labels: { style: { fontSize: '9px' } } },
     yAxis: { title: { text: '' }, plotLines: [ { value: 0, width: 1, color: '#FF8080' } ] },
     tooltip: { pointFormat: '' },

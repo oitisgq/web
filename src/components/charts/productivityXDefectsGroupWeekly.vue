@@ -10,7 +10,7 @@
   import chartParameters from 'components/charts/types/timelineMultipleAxis'
 
   export default {
-    name: 'ctsImpactedXDefects',
+    name: 'productivityXDefects',
 
     props: {
       dataSource: { type: Array },
@@ -32,35 +32,48 @@
     methods: {
       loadParameters () {
         this.parameters.title.text = this.title
-        this.parameters.yAxis[0].title.text = 'CTs Impactados'
-        this.parameters.yAxis[1].title.text = 'Defeitos'
+        this.parameters.yAxis[0].title.text = 'Produtividade / Realizado / Defeitos'
+        this.parameters.yAxis[1].title.text = 'Média CTs Dia'
+        this.parameters.xAxis.title.text = 'Semanas'
 
-        this.parameters.xAxis.categories = this.dataSource.map(i => i.date)
+        this.parameters.xAxis.categories = this.dataSource.map(i => i.fullWeekNumber)
 
         this.parameters.series = [
           {
-            name: 'CTs Impact.',
+            name: 'Produtividade',
             type: 'column',
-            tooltip: { pointFormat: 'CTs Impactados: {point.y:.0f}<br>' },
-            data: this.dataSource.map(i => i.qtyCtsImpactedAcum)
+            tooltip: { pointFormat: 'Produtividade: {point.y:.0f}<br>' },
+            data: this.dataSource.map(i => i.productivity)
+          }, {
+            name: 'Realizado',
+            type: 'column',
+            tooltip: { pointFormat: 'Realizado: {point.y:.0f}<br>' },
+            data: this.dataSource.map(i => i.realized)
           }, {
             name: 'Tot.Def.',
-            type: 'spline',
-            yAxis: 1,
+            type: 'column',
+            color: '#008000',
             tooltip: { pointFormat: 'Total Defeitos: {point.y:.0f}<br>' },
             data: this.dataSource.map(i => i.qtyDefectsTotAcum)
           }, {
             name: 'Def.Amb.',
-            type: 'spline',
-            yAxis: 1,
+            type: 'column',
+            color: '#0000FF',
             tooltip: { pointFormat: 'Defeitos Ambiente: {point.y:.0f}<br>' },
             data: this.dataSource.map(i => i.qtyDefectsAmbAcum)
           }, {
             name: 'Def.Const.',
-            yAxis: 1,
-            type: 'spline',
-            tooltip: { pointFormat: 'Defeitos Construção: {point.y:.0f}' },
+            type: 'column',
+            color: '#FF5733',
+            tooltip: { pointFormat: 'Defeitos Construção: {point.y:.0f}<br>' },
             data: this.dataSource.map(i => i.qtyDefectsConsAcum)
+          }, {
+            name: 'Média CTs Dia',
+            color: '#FFA500',
+            type: 'spline',
+            yAxis: 1,
+            tooltip: { pointFormat: 'Média CTs Dia: {point.y:.0f}' },
+            data: this.dataSource.map(i => i.realizedAverage)
           }
         ]
       }
@@ -69,7 +82,7 @@
 </script>
 
 <template>
-  <div style="width:450px; height:400px; margin:0 auto">
+  <div style="width:1000px; height:400px; margin:0 auto">
     {{dataSource}}
   </div>
 </template>

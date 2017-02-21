@@ -18,6 +18,15 @@
 
   import servicesStatusGroupDay from 'src/services/statusGroupDay'
   import servicesStatusGroupMonth from 'src/services/statusGroupMonth'
+  import servicesDefectsStatus from 'src/services/defectsStatus'
+
+  import servicesDefectsGroupOrigin from 'src/services/defectsGroupOrigin'
+  import servicesDefectsOpenInTestManuf from 'src/services/defectsOpenInTestManuf'
+  import servicesDefectsOpenInDevManuf from 'src/services/defectsOpenInDevManuf'
+  import servicesCtsImpactedXDefects from 'src/services/ctsImpactedXDefects'
+  import servicesProductivityXDefects from 'src/services/productivityXDefects'
+  import servicesProductivityXDefectsGroupWeekly from 'src/services/productivityXDefectsGroupWeekly'
+
   import getStatusTrans from 'src/libs/getStatusTrans'
 
   export default {
@@ -59,7 +68,15 @@
 
         statusByProjectGroupDayTop5: {},
         statusByProjectGroupDayTop30: {},
-        statusByProjectGroupMonth: {}
+        statusByProjectGroupMonth: {},
+
+        defectStatus: [],
+        defectGroupOrigin: [],
+        defectsOpenInTestManuf: [],
+        defectsOpenInDevManuf: [],
+        ctsImpactedXDefects: [],
+        productivityXDefects: [],
+        productivityXDefectsGroupWeekly: []
       }
     },
 
@@ -117,6 +134,14 @@
         this.loadReopenedData(this.project)
         this.loadDetectableInDevData(this.project)
         this.loadStatus(this.project)
+        this.loadDefectsStatus(this.project)
+        this.loadDefectsGroupOrigin(this.project)
+        this.loadCtsImpactedXDefects(this.project)
+        this.loadDefectsOpenInTestManuf(this.project)
+        this.loadDefectsOpenInDevManuf(this.project)
+        this.loadCtsImpactedXDefects(this.project)
+        this.loadProductivityXDefects(this.project)
+        this.loadProductivityXDefectsGroupWeekly(this.project)
       },
 
       showItem () {
@@ -162,6 +187,48 @@
         })
         servicesStatusGroupMonth.getByProject(project).then(resp => {
           this.statusByProjectGroupMonth = getStatusTrans(resp.data)
+        })
+      },
+
+      loadDefectsStatus (project) {
+        servicesDefectsStatus.getByProject(project).then(resp => {
+          this.defectStatus = resp.data
+        })
+      },
+
+      loadDefectsGroupOrigin (project) {
+        servicesDefectsGroupOrigin.getByProject(project).then(resp => {
+          this.defectGroupOrigin = resp.data
+        })
+      },
+
+      loadDefectsOpenInTestManuf (project) {
+        servicesDefectsOpenInTestManuf.getByProject(project).then(resp => {
+          this.defectsOpenInTestManuf = resp.data
+        })
+      },
+
+      loadDefectsOpenInDevManuf (project) {
+        servicesDefectsOpenInDevManuf.getByProject(project).then(resp => {
+          this.defectsOpenInDevManuf = resp.data
+        })
+      },
+
+      loadCtsImpactedXDefects (project) {
+        servicesCtsImpactedXDefects.getByProject(project).then(resp => {
+          this.ctsImpactedXDefects = resp.data
+        })
+      },
+
+      loadProductivityXDefects (project) {
+        servicesProductivityXDefects.getByProject(project).then(resp => {
+          this.productivityXDefects = resp.data
+        })
+      },
+
+      loadProductivityXDefectsGroupWeekly (project) {
+        servicesProductivityXDefectsGroupWeekly.getByProject(project).then(resp => {
+          this.productivityXDefectsGroupWeekly = resp.data
         })
       }
     }
@@ -244,6 +311,13 @@
       :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
       :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
       :statusByProjectGroupMonth="statusByProjectGroupMonth"
+      :defectStatus="defectStatus"
+      :defectGroupOrigin="defectGroupOrigin"
+      :defectsOpenInTestManuf="defectsOpenInTestManuf"
+      :defectsOpenInDevManuf="defectsOpenInDevManuf"
+      :ctsImpactedXDefects="ctsImpactedXDefects"
+      :productivityXDefects="productivityXDefects"
+      :productivityXDefectsGroupWeekly="productivityXDefectsGroupWeekly"
     />    
     
   </div>

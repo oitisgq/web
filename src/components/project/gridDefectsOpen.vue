@@ -1,20 +1,33 @@
 <script>
+  import oiModal from 'components/modal'
+  import oiDefectShow from 'components/defect/show'
+  import serviceDefectDetail from 'src/services/defectDetail'
+
   export default {
     name: 'gridDefectsOpen',
 
+    components: { oiModal, oiDefectShow },
+
     props: {
-      defects: {type: Array}
+      defects: { type: Array },
+      id: { type: String }
     },
 
     data () {
       return {
-        defect: {}
+        selectedDefect: {},
+        selectedDefectDetail: {}
       }
     },
 
     methods: {
       onSelectDefect (defect) {
-        this.$emit('onSelectDefect', defect)
+        this.selectedDefect = defect
+        serviceDefectDetail.getByDefect(defect).then(resp => {
+          this.selectedDefectDetail = resp.data
+        })
+
+        // this.$emit('onSelectDefect', defect)
       }
     }
   }
@@ -25,33 +38,33 @@
     <table class="table table-condensed table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px"></font>
-                </th>                                
+                </td>                                
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Nº</font>
-                </th>
+                </td>
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Status</font>
-                </th>
+                </td>
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Encam.Para</font>
-                </th>
+                </td>
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Sistema Def.</font>
-                </th>
+                </td>
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Aging (h)</font>
-                </th>
+                </td>
 
-                <th class="text-center" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="2px">Ping Pong</font>
-                </th>
+                </td>
 
             </tr>
         </thead>
@@ -59,9 +72,10 @@
             <tr>
                 <td class="text-center" style="padding:0; white-space: nowrap">
                   <a class='btn btn-xs my-tool-tip' 
-                    data-toggle="tooltip" 
-                    title="Exibir" 
+                    title="Exibir"
                     style="padding:0;margin:0; text-right"
+                    data-toggle="modal"
+                    :data-target="'#' + id"                    
                     @click="onSelectDefect(defect)">
                     <i class='glyphicon glyphicon-list-alt'></i>
                   </a>
@@ -93,6 +107,14 @@
             </tr>
         </tbody> 
     </table>
+
+
+    <oiModal :id="id">
+        <oiDefectShow
+            :defect="selectedDefectDetail"
+        />
+    </oiModal>
+
   </div>
 </template>
 

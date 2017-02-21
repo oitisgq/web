@@ -5,6 +5,6 @@ const resource = vueResource.resource(serverPaths.defaultServer + '/defectDetail
 
 export default {
   getByDefect (defect) {
-    return resource.get({ subproject: defect.subproject, delivery: defect.delivery, id: defect.id }, defect)
+    return resource.get({ subproject: defect.subproject, delivery: defect.delivery, defect: defect.defect }, defect)
   }
 }

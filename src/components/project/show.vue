@@ -7,10 +7,14 @@
   import oiChartOpenedXClosedXCancelled from 'components/charts/defects/openedXClosedXCancelled'
   import oiChartGroupOrigin from 'components/charts/defects/groupOrigin'
   import oiChartCtsImpactedXDefects from 'components/charts/ctsImpactedXDefects'
+  import oiChartProductivityXDefects from 'components/charts/productivityXDefects'
+  import oiChartProductivityXDefectsGroupWeekly from 'components/charts/productivityXDefectsGroupWeekly'
 
   import oiGridMonitAcum from './gridMonitAcum'
   import oiGridMonitDay from './gridMonitDay'
   import oiGridDefectsOpen from './gridDefectsOpen'
+
+  // import HttpService from 'src/http/HttpService'
 
   export default {
     name: 'projectShow',
@@ -26,7 +30,9 @@
       oiChartOpenedXClosedXCancelled,
       oiChartGroupOrigin,
       oiGridDefectsOpen,
-      oiChartCtsImpactedXDefects
+      oiChartCtsImpactedXDefects,
+      oiChartProductivityXDefects,
+      oiChartProductivityXDefectsGroupWeekly
     },
 
     // ctsImpactedByDefects: { type: Object },
@@ -44,7 +50,9 @@
       defectGroupOrigin: { type: Array },
       defectsOpenInTestManuf: { type: Array },
       defectsOpenInDevManuf: { type: Array },
-      ctsImpactedXDefects: { type: Array }
+      ctsImpactedXDefects: { type: Array },
+      productivityXDefects: { type: Array },
+      productivityXDefectsGroupWeekly: { type: Array }
     },
 
     data () {
@@ -65,6 +73,40 @@
         return (index > -1) ? this.colors[index].ingles : ''
       },
 
+      emailCurrentPage () {
+        // let y1 = document.querySelector('#projects').innerHTML
+        let y2 = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <title>Document</title>
+          </head>
+          <body>
+            <h1>sffdfdsffd</h1>
+          </body>
+          </html>`
+        window.location.href = 'mailto:joao.frade@oi.net.br?subject=' + document.title + '&body=' + encodeURIComponent(y2)
+        console.log('11111')
+        console.log(y2)
+        /*
+        let xpto = new HttpService()
+        console.log('22222')
+        xpto
+          .postEmail('http://localhost:55286/email', y2)
+          .then(item => {
+            console.log(item)
+          })
+          .catch(erro => {
+            console.log(erro)
+          })
+        console.log('33333')
+        */
+        // console.log('-----------------------')
+        // console.log(x)
+        // window.print()
+      },
+
       selectDefect (defect) {
       },
 
@@ -79,7 +121,9 @@
 <template>
   <div id="projects">
 
-    <button @click="showModal = true">New Post</button>
+    <a href="#" @click="emailCurrentPage">Mail this page!</a>   <br>
+
+    <a href='mailto:email@email.com?subject=Software&body=see attachment&attachment="d:/Cargas.txt"'>sdfds</a>
 
     <div id="cabecalho" class="row well well-sm oi-well" >
       <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
@@ -117,31 +161,28 @@
 
     </div>    
 
-    <div id="abas" class="row well well-sm oi-well" >
-
-      <div class="row well-sm oi-well">
+    <div id="abas" class="row well well-sm oi-well">
 
           <ul class="nav nav-tabs" style="margin-top:3px">
             <li class="active"><a data-toggle="tab" href="#overview" style="padding: 4px">Visão Geral</a></li>
             <li><a data-toggle="tab" href="#monitoring" style="padding: 4px">Acompanhamento</a></li>
             <li><a data-toggle="tab" href="#defects" style="padding: 4px">Defeitos</a></li>
-            <li><a data-toggle="tab" href="#attentionPointsOfIndicators" style="padding: 4px">Aprovações</a></li>
           </ul>
 
           <div class="tab-content">
               <div id="overview" class="tab-pane fade in active" style="padding:5px; margin:0; text-align: center">
 
-                  <div id="trafficLight" class="row">
-                    <div class="col-xs-12 col-md-1">
+                  <div id="trafficLight" class="row well well-sm oi-well">
+                    <div class="col-xs-1">
                         <label class="fd-label">Farol &nbsp</label>
-                        <div class="text-center">
+                        <div class="text-center" style="padding-bottom:5px">
                           <img alt="Farol Verde" src="../../assets/images/verde.png"  v-show="project.trafficLight === 'VERDE'">
                           <img alt="Farol Amarelo" src="../../assets/images/amarelo.png" v-show="project.trafficLight === 'AMARELO'">
                           <img alt="Farol Vermelho" src="../../assets/images/vermelho.png" v-show="project.trafficLight === 'VERMELHO'">
                         </div>
                     </div>
 
-                    <div class="col-xs-12 col-md-5">
+                    <div class="col-xs-5">
                       <div>
                         <label class="fd-label">Causa Raíz</label>
                       </div>
@@ -150,7 +191,7 @@
                       </div>
                     </div>
 
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-xs-6">
                       <div>
                         <label class="fd-label">Plano de Ação</label>
                       </div>
@@ -160,8 +201,8 @@
                     </div>
                   </div>
 
-                  <div id="Informative_AttentionPoints" class="row">
-                      <div class="col-xs-12 col-md-6">
+                  <div id="Informative_AttentionPoints" class="row well well-sm oi-well">
+                      <div class="col-xs-6">
                         <div id="Informative">
                           <label class="fd-label">Informativo</label>
                         </div>
@@ -170,7 +211,7 @@
                         </div>
                       </div>
 
-                      <div class="col-xs-12 col-md-6">
+                      <div class="col-xs-6">
                         <div id="AttentionPoints">
                           <label class="fd-label">Pontos de Atenção</label>
                         </div>
@@ -180,7 +221,7 @@
                       </div>
                   </div>
 
-                  <div id="AttentionPointsInd" class="row">
+                  <div id="AttentionPointsInd" class="row well well-sm oi-well">
                       <div>
                         <label class="fd-label">Pontos de Atenção dos Indicadores</label>
                       </div>
@@ -190,11 +231,6 @@
 
                       <div class="row">
                           <div class="col-xs-12">
-                              <div class="row">
-                                <br>
-                                <label class="fd-label">Indicadores</label>
-                              </div>
-
                               <div class="col-xs-6 col-md-3 oi-col">
                                 <oiChartDensityTotal :value="densityTotal"/>
                               </div>
@@ -233,19 +269,40 @@
                   <div class="col-xs-12 col-md-6 text-center" style="padding-top:10px">
                       <oiChartExecutionProject :dataSource="statusByProjectGroupDayTop30" title="Curva S dos últimos dias"/>
                   </div>
+
+                  <div class="col-xs-12 text-center" style="padding-top:10px">
+                      <oiChartProductivityXDefects
+                        title = "Produtividade X Defeitos Abertos" 
+                        :dataSource="productivityXDefects" 
+                      />
+                  </div>
+                  
+                  <div class="col-xs-12 text-center" style="padding-top:10px">
+                      <oiChartProductivityXDefectsGroupWeekly
+                        title = "Produtividade X Defeitos Abertos, Semanal" 
+                        :dataSource="productivityXDefectsGroupWeekly" 
+                      />
+                  </div>
               </div>  
 
               <div id="defects" class="tab-pane fade">
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
+                  <div class="col-xs-12 col-md-6 col-lg-4 text-center" style="margin:0; border:0; padding:0; padding-top:10px">
                       <oiChartOpenedXClosedXCancelled 
                         title = "Abertos X Fechados X Cancelados" 
                         :defectStatus="defectStatus" 
                       />
                   </div>
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
+                  <div class="col-xs-12 col-md-6 col-lg-4 text-center" style="margin:0; border:0; padding:0; padding-top:15px">
                       <oiChartGroupOrigin 
                         title = "Fechados Por Origem"
                         :data = "defectGroupOrigin"
+                      />
+                  </div>
+
+                  <div class="col-xs-12 col-lg-4 text-center" style="margin:0; border:0; padding:0; padding-top:15px">
+                      <oiChartCtsImpactedXDefects 
+                        title = "CTs Impactados X Defeitos Abertos" 
+                        :dataSource="ctsImpactedXDefects" 
                       />
                   </div>
 
@@ -259,6 +316,7 @@
                     <label class="fd-label">Aberto na Fáb. Teste</label>
                     <oiGridDefectsOpen 
                       :defects="defectsOpenInTestManuf"
+                      id="xpto1"
                       @onSelectDefect="selectDefect"
                     />
                   </div>
@@ -267,22 +325,13 @@
                     <label class="fd-label">Aberto na Fáb. Desenv.</label>
                     <oiGridDefectsOpen 
                       :defects="defectsOpenInDevManuf"
+                      id="xpto2"
                       @onSelectDefect="selectDefect"
                     />
                   </div>
-
-                  <div class="row">
-                    <div class="col-xs-12 text-center" style="padding-top:10px" v-show="defectsOpenInDevManuf.length > 0">
-                        <oiChartCtsImpactedXDefects 
-                          title = "CTs Impactados X Defeitos Abertos" 
-                          :dataSource="ctsImpactedXDefects" 
-                        />
-                    </div>
-                  </div>
+                
               </div>
-
           </div>
-      </div>
 
     </div>
 
@@ -317,8 +366,11 @@
   }
 
   img {
-    margin-top: 5px;
-    height: 40px;
-    width: 40px;
+    margin: 0; 
+    border: 0; 
+    padding: 0;
+    vertical-align: top;
+    height: 35px;
+    width: 35px;
   }
 </style>

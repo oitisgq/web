@@ -24,6 +24,8 @@
   import servicesDefectsOpenInTestManuf from 'src/services/defectsOpenInTestManuf'
   import servicesDefectsOpenInDevManuf from 'src/services/defectsOpenInDevManuf'
   import servicesCtsImpactedXDefects from 'src/services/ctsImpactedXDefects'
+  import servicesProductivityXDefects from 'src/services/productivityXDefects'
+  import servicesProductivityXDefectsGroupWeekly from 'src/services/productivityXDefectsGroupWeekly'
 
   import getStatusTrans from 'src/libs/getStatusTrans'
 
@@ -69,7 +71,9 @@
         defectGroupOrigin: [],
         defectsOpenInTestManuf: [],
         defectsOpenInDevManuf: [],
-        ctsImpactedXDefects: []
+        ctsImpactedXDefects: [],
+        productivityXDefects: [],
+        productivityXDefectsGroupWeekly: []
       }
     },
 
@@ -99,6 +103,8 @@
         this.loadDefectsOpenInTestManuf(this.project)
         this.loadDefectsOpenInDevManuf(this.project)
         this.loadCtsImpactedXDefects(this.project)
+        this.loadProductivityXDefects(this.project)
+        this.loadProductivityXDefectsGroupWeekly(this.project)
       },
 
       searchItem () {
@@ -177,6 +183,18 @@
         })
       },
 
+      loadProductivityXDefects (project) {
+        servicesProductivityXDefects.getByProject(project).then(resp => {
+          this.productivityXDefects = resp.data
+        })
+      },
+
+      loadProductivityXDefectsGroupWeekly (project) {
+        servicesProductivityXDefectsGroupWeekly.getByProject(project).then(resp => {
+          this.productivityXDefectsGroupWeekly = resp.data
+        })
+      },
+
       filterProjects (evento) {
         let _this = this
         if (this.projectFilterTerm !== '') {
@@ -198,8 +216,7 @@
 </script>
 
 <template>
-  <div id="projects" class="container">
-    <div class="row well well-sm">
+    <div class="container-fluid well well-sm">
 
       <!-- CABEÇALHO -->
       <div class="row">
@@ -251,10 +268,11 @@
         :defectsOpenInTestManuf="defectsOpenInTestManuf"
         :defectsOpenInDevManuf="defectsOpenInDevManuf"
         :ctsImpactedXDefects="ctsImpactedXDefects"
+        :productivityXDefects="productivityXDefects"
+        :productivityXDefectsGroupWeekly="productivityXDefectsGroupWeekly"
       />
 
     </div>
-  </div>
 </template>
 
 <style scoped>

@@ -13,10 +13,11 @@ export default function () {
 
     credits: { enabled: false },
     exporting: { enabled: false },
-    lang: { noData: 'Sem dados para mostrar' },
+    lang: { noData: 'Sem dados!' },
 
     xAxis: {
       type: '',
+      title: { text: '' },
       categories: [],
       crosshair: true
     },
@@ -48,7 +49,21 @@ export default function () {
       }
     },
 
-    legend: { layout: 'horizontal', itemDistance: 1, align: 'center', verticalAlign: 'bottom', borderWidth: 0, x: 0, y: 0 },
+    legend: {
+      layout: 'horizontal',
+      itemDistance: 1,
+      align: 'center',
+      verticalAlign: 'bottom',
+      borderWidth: 0,
+      x: 0,
+      y: 0,
+      margin: 0,
+      itemStyle: {
+        color: '#6b6b47',
+        fontWeight: 'normal',
+        fontSize: '12px'
+      }
+    },
     series: []
   }
 }

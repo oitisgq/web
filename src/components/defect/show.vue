@@ -2,211 +2,205 @@
   export default {
     name: 'projectShow',
 
-    components: {
-
-    },
-
-    // ctsImpactedByDefects: { type: Object },
-
     props: {
       defect: { type: Object }
-    },
+    }
   }
 </script>
 
 <template>
   <div id="defect">
-    <div id="cabecalho" class="row well well-sm oi-well" >
-      <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
-        <div>
-          <label class="fd-label">Número:</label>
-          <label class="fd-content">{{defect.subprojectDelivery}}</label>
+    <div id="cabecalho" >
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-2 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Project:</label><br>
+            <label class="fd-content">{{defect.project}}</label>
+          </div>
         </div>
-      </div>
-      <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
-        <div>
-          <label class="fd-label">Nome:</label>
-          <label class="fd-content">{{defect.name}}</label>
+
+        <div class="col-xs-2 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Número:</label><br>
+            <label class="fd-content">{{defect.id}}</label>
+          </div>
         </div>
-      </div>
-      <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
-        <div>
-          <label class="fd-label">GP:</label>
-          <label class="fd-content">{{defect.GP}}</label>
+
+        <div class="col-xs-8 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Nome:</label><br>
+            <label class="fd-content">{{defect.name}}</label>
+          </div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-md-6" style="margin:0; border:0; padding:0; padding-left:5px">
-        <div>
-          <label class="fd-label">N3:</label>
-          <label class="fd-content">{{defect.N3}}</label>
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-2 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">CT:</label><br>
+            <label class="fd-content">{{defect.CT}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-10 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Nome CT:</label><br>
+            <label class="fd-content">skjdf hjasdfhj asfjkg fdshk gksjdg hskjdfhkgdfhg sdfg sfdjkgsh jkfdhsgj fdh gshdfg hsfdkg shkfdhg</label>
+          </div>
         </div>
       </div>
 
-      <div class="col-xs-12" style="margin:0; border:0; padding:0; padding-left:5px">
-        <div>
-          <label class="fd-label">Objetivos (Clarity):</label>
-          <label class="fd-content">{{defect.objective}}</label>
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Ciclo:</label><br>
+            <label class="fd-content">{{defect.cycle}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Sistema CT:</label><br>
+            <label class="fd-content">{{defect.ctSystem}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Sistema Defeito:</label><br>
+            <label class="fd-content">{{defect.defectSystem}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Fab.Desenv:</label><br>
+            <label class="fd-content">{{defect.devManuf}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Fab.Teste:</label><br>
+            <label class="fd-content">{{defect.testManuf}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Encaminhado Para:</label><br>
+            <label class="fd-content">{{defect.forwardedTo}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Severidade:</label><br>
+            <label class="fd-content">{{defect.severity}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Origem:</label><br>
+            <label class="fd-content">{{defect.source}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Status:</label><br>
+            <label class="fd-content">{{defect.status}}</label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-8 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Natureza:</label>
+            <label class="fd-content">{{defect.nature}}</label>
+          </div>
+        </div>
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Detectável em Desenv.:</label><br>
+            <label class="fd-content">{{defect.detectableInDev}}</label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Abertura:</label><br>
+            <label class="fd-content">{{defect.dtOpening}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Prev. Solução:</label><br>
+            <label class="fd-content">{{defect.dtForecastingSolution}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Qt. Reopen:</label><br>
+            <label class="fd-content">{{defect.qtyReopened}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row well well-sm oi-well">
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Qt. Impactado:</label><br>
+            <label class="fd-content">{{defect.qtyImpactedCTs}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Ping Pong:</label><br>
+            <label class="fd-content">{{defect.qtyPingPong}}</label>
+          </div>
+        </div>
+
+        <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
+          <div>
+            <label class="fd-label">Aging (h):</label><br>
+            <label class="fd-content">{{defect.aging}}</label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-12 text-left" style="margin:0; border:0; padding:0; padding-left:5px ">
+        <a class="btn btn-primary btn-xs" 
+          role="button" 
+          data-toggle="collapse" 
+          href="#Comments" 
+          style="margin-top:10px"
+          aria-expanded="false" 
+          aria-controls="collapseExample">
+          Comentários
+        </a>
+        <div id="Comments" class="collapse" >
+          <div class="well">
+              <label class="fd-content" v-html="defect.Comments"></label>
+          </div>
         </div>
       </div>
 
     </div>    
-
-    <div id="abas" class="row well well-sm oi-well" >
-
-      <div class="row well-sm oi-well">
-
-          <ul class="nav nav-tabs" style="margin-top:3px">
-            <li class="active"><a data-toggle="tab" href="#overview" style="padding: 4px">Visão Geral</a></li>
-            <li><a data-toggle="tab" href="#monitoring" style="padding: 4px">Acompanhamento</a></li>
-            <li><a data-toggle="tab" href="#defects" style="padding: 4px">Defeitos</a></li>
-            <li><a data-toggle="tab" href="#attentionPointsOfIndicators" style="padding: 4px">Aprovações</a></li>
-          </ul>
-
-          <div class="tab-content">
-              <div id="overview" class="tab-pane fade in active" style="padding:5px; margin:0; text-align: center">
-
-                  <div id="trafficLight" class="row">
-                    <div class="col-xs-12 col-md-1">
-                        <label class="fd-label">Farol &nbsp</label>
-                        <div class="text-center">
-                          <img alt="Farol Verde" src="../../assets/images/verde.png"  v-show="defect.trafficLight === 'VERDE'">
-                          <img alt="Farol Amarelo" src="../../assets/images/amarelo.png" v-show="defect.trafficLight === 'AMARELO'">
-                          <img alt="Farol Vermelho" src="../../assets/images/vermelho.png" v-show="defect.trafficLight === 'VERMELHO'">
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-md-5">
-                      <div>
-                        <label class="fd-label">Causa Raíz</label>
-                      </div>
-                      <div>
-                        <label class="fd-content">{{defect.rootCause ? defect.rootCause : 'Sem dados!'}}</label>
-                      </div>
-                    </div>
-
-                    <div class="col-xs-12 col-md-6">
-                      <div>
-                        <label class="fd-label">Plano de Ação</label>
-                      </div>
-                      <div>
-                        <label class="fd-content">{{defect.actionPlan ? defect.actionPlan : 'Sem dados!'}}</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div id="Informative_AttentionPoints" class="row">
-                      <div class="col-xs-12 col-md-6">
-                        <div id="Informative">
-                          <label class="fd-label">Informativo</label>
-                        </div>
-                        <div>
-                          <label class="fd-content">{{defect.informative ? defect.informative : 'Sem dados!'}}</label>
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-md-6">
-                        <div id="AttentionPoints">
-                          <label class="fd-label">Pontos de Atenção</label>
-                        </div>
-                        <div>
-                          <label class="fd-content">{{defect.attentionPoints ? defect.attentionPoints : 'Sem dados!'}}</label>
-                        </div>
-                      </div>
-                  </div>
-
-                  <div id="AttentionPointsInd" class="row">
-                      <div>
-                        <label class="fd-label">Pontos de Atenção dos Indicadores</label>
-                      </div>
-                      <div class="row">
-                        <label class="fd-content">{{defect.attentionPointsOfIndicators  ? defect.attentionPointsOfIndicators : 'Sem dados!'}}</label>
-                      </div>                      
-
-                      <div class="row">
-                          <div class="col-xs-12">
-                              <div class="row">
-                                <br>
-                                <label class="fd-label">Indicadores</label>
-                              </div>
-
-                              <div class="col-xs-6 col-md-3 oi-col">
-                                <oiChartDensityTotal :value="densityTotal"/>
-                              </div>
-
-                              <div class="col-xs-6 col-md-3 oi-col">
-                                <oiChartAverangeTimeTotal :value="averangeTimeTotal"/>
-                              </div>
-
-                              <div class="col-xs-6 col-md-3 oi-col">
-                                <oiChartReopenedTotal :value="reopenedTotal"/>
-                              </div>
-
-                              <div class="col-xs-6 col-md-3 oi-col">
-                                <oiChartDetectableInDev :value="detectableInDevTotal"/>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div id="monitoring" class="tab-pane fade">
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <label class="fd-label">Acumulado</label>
-                      <oiGridMonitAcum :dataSource="statusByProjectGroupDayTop5"/>
-                  </div>
-
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <label class="fd-label">Diário</label>
-                      <oiGridMonitDay :dataSource="statusByProjectGroupDayTop5"/>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6 text-center" style="padding-top:10px">
-                      <oiChartExecutionProject :dataSource="statusByProjectGroupMonth" title="Curva S"/>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6 text-center" style="padding-top:10px">
-                      <oiChartExecutionProject :dataSource="statusByProjectGroupDayTop30" title="Curva S dos últimos dias"/>
-                  </div>
-              </div>  
-
-              <div id="defects" class="tab-pane fade">
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <oiOpenedXClosedXCancelled 
-                        title = "Abertos X Fechados X Cancelados" 
-                        :defectStatus="defectStatus" 
-                      />
-                  </div>
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px">
-                      <oiGroupOrigin 
-                        title = "Fechados Por Origem"
-                        :data = "defectGroupOrigin"
-                      />
-                  </div>
-
-                  <!--
-                  <div class="col-xs-12 text-center" style="padding-top:10px">
-                      <oiChartExecutionProject :dataSource="ctsImpactedByDefects" title="CTs Impactados X Defeitos"/>
-                  </div>
-                  -->
-
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px" v-show="defectsOpenInTestManuf.length > 0">
-                    <label class="fd-label">Aberto na Fáb. Teste</label>
-                    <oiGridDefectsOpen :data="defectsOpenInTestManuf"/>
-                  </div>
-
-                  <div class="col-xs-12 col-lg-6 text-center" style="padding-top:10px" v-show="defectsOpenInDevManuf.length > 0">
-                    <label class="fd-label">Aberto na Fáb. Desenv.</label>
-                    <oiGridDefectsOpen :data="defectsOpenInDevManuf"/>
-                  </div>
-                  
-              </div>
-
-          </div>
-      </div>
-
-    </div>
- 
   </div>
 </template>
 
