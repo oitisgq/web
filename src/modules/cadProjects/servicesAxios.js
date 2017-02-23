@@ -4,7 +4,7 @@ import axios from 'src/http/axios'
 // serverPathNode: 'http://localhost:3000',
 // serverPathHml: 'http://sgqhml.intranet/SGQJson',
 // serverPathPrd: 'http://sgq.intranet/SGQJson',
-const serverPath = 'http://localhost:55286'
+const serverPath = 'http://sgqhml.intranet/SGQJson'
 
 export const getProjects = () => {
   return axios.get(serverPath + '/projects/all')

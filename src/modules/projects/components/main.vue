@@ -238,7 +238,7 @@
       <!-- CAMPO PESQUISA  -->
       <div class="row well well-sm oi-well" v-show="this.state=='search'">
         <input type="text"
-            placeholder="Informe os filtros! Ex: multip+verd+2017"
+            placeholder="Informe os filtros! Ex: multip+verd+2017 Pesquisar por Farol: digitar a cor(verde; vermelho; amarelo)"
             v-model="projectFilterTerm"
             @keyup="filterProjects"/>
       </div>

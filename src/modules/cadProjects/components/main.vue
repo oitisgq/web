@@ -281,7 +281,7 @@
 
     <div class="row well well-sm oi-well" v-show="this.state=='search'">
       <input type="text"
-          placeholder="Informe o filtro! Ex: multip+verde"
+          placeholder="Informe o filtro! Ex: multip+verde Pesquisar por Farol: digitar a cor(verde; vermelho; amarelo)"
           v-model="projectFilterTerm"
           @keyup="filterProjects"/>
     </div>

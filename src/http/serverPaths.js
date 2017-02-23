@@ -8,7 +8,7 @@ const serverPaths = {
   localServerExpress,
   homologationServer,
   productionServer,
-  defaultServer: localServer
+  defaultServer: homologationServer
 }
 
 export default serverPaths

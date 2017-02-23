@@ -96,8 +96,10 @@
                     <font size="2">{{item.state}}</font>
                 </td>
 
-                <td class="text-center" :style="'color:' + color(item.trafficLight)">
-                    <font size="2">{{item.trafficLight}}</font>
+                <td class="text-center">
+                    <img alt="Farol Verde" src="../../../assets/images/verde.png" height="20" width="20" align="middle" v-show="item.trafficLight === 'VERDE'">
+                    <img alt="Farol Amarelo" src="../../../assets/images/amarelo.png" height="20" width="20" v-show="item.trafficLight === 'AMARELO'">
+                    <img alt="Farol Vermelho" src="../../../assets/images/vermelho.png" height="20" width="20"  v-show="item.trafficLight === 'VERMELHO'">
                 </td>
 
                 <td class="text-right" style="padding:0; white-space: nowrap">

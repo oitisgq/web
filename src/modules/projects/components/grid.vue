@@ -13,9 +13,9 @@
         project: {},
 
         colors: [
-          { portugues: 'VERMELHO', ingles: 'red' },
-          { portugues: 'VERDE', ingles: 'green' },
-          { portugues: 'AMARELO', ingles: 'gold' }
+          { portugues: 'VERMELHO', ingles: 'white' },
+          { portugues: 'VERDE', ingles: 'white' },
+          { portugues: 'AMARELO', ingles: 'white' }
         ]
       }
     },
@@ -34,8 +34,8 @@
 </script>
 
 <template>
-  <div id="projectsGrid">
-    <table class="table table-condensed table-striped table-hover table-bordered" style="margin-bottom:0; border:0; padding-bottom:0">
+  <div id="projectsGrid" class="myClass" >
+    <table id="tabela" class="table table-condensed table-striped table-hover table-bordered" style="margin-bottom:0; border:0; padding-bottom:0">
         <thead>
             <tr>
                 <th class="text-center" style="padding:0">
@@ -89,8 +89,10 @@
                     <font size="2px">{{item.state}}</font>
                 </td>
 
-                <td class="text-center" :style="'color:' + color(item.trafficLight)">
-                    <font size="2px">{{item.trafficLight.substring(0,4)}}</font>
+                <td class="text-center">
+                     <img alt="Farol Verde" src="../../../assets/images/verde.png" height="20" width="20" align="middle" v-show="item.trafficLight === 'VERDE'">
+                     <img alt="Farol Amarelo" src="../../../assets/images/amarelo.png" height="20" width="20" v-show="item.trafficLight === 'AMARELO'">
+                     <img alt="Farol Vermelho" src="../../../assets/images/vermelho.png" height="20" width="20"  v-show="item.trafficLight === 'VERMELHO'">
                 </td>
 
                 <td class="text-center" style="padding:0; white-space: nowrap">
@@ -108,6 +110,8 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+    
 
+    
 </style>

@@ -9,6 +9,7 @@
   import oiChartCtsImpactedXDefects from 'components/charts/ctsImpactedXDefects'
   import oiChartProductivityXDefects from 'components/charts/productivityXDefects'
   import oiChartProductivityXDefectsGroupWeekly from 'components/charts/productivityXDefectsGroupWeekly'
+  import oiModal from 'components/modal.vue'
 
   import oiGridMonitAcum from './gridMonitAcum'
   import oiGridMonitDay from './gridMonitDay'
@@ -32,7 +33,8 @@
       oiGridDefectsOpen,
       oiChartCtsImpactedXDefects,
       oiChartProductivityXDefects,
-      oiChartProductivityXDefectsGroupWeekly
+      oiChartProductivityXDefectsGroupWeekly,
+      oiModal
     },
 
     // ctsImpactedByDefects: { type: Object },
@@ -264,10 +266,54 @@
 
                   <div class="col-xs-12 col-md-6 text-center" style="padding-top:10px">
                       <oiChartExecutionProject :dataSource="statusByProjectGroupMonth" title="Curva S"/>
+                      <button 
+                          type="button" 
+                          style="margin-top:3px"
+                          class="btn btn-xs"
+                          data-toggle="modal" 
+                          data-target="#definitionScurveModal">Definição
+                      </button>
+                      <oiModal id="definitionScurveModal">
+                          <h4 style="margin-top:0; text-align:center"><strong>Gráfico de acompanhamento de Execução (Curva S).</strong></h4>
+                          <p style="text-align:left">
+                             <b> Planejados </b> = Qtd de CTs com campo 'Planned Exec Date' preenchido para aquele dia.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Realizado </b>= Qtd de CTs com campo 'Status = 'Passed' + 'Exec Date' = Dia relacionado.
+                          </p>
+                          <p style="text-align:left">
+                             <b> GAP </b> = (CTs <> Passed) - (CTs = 'Passed') com planejamento para aquele dia.
+                          </p>
+                          <p style="text-align:left">
+                             A escala temporal é baseada na SEQUÊNCIA de meses no ano (01-xx = JANEIRO; 02-XX = FEVEREIRO; etc).
+                          </p>
+                      </oiModal>   
                   </div>
 
                   <div class="col-xs-12 col-md-6 text-center" style="padding-top:10px">
                       <oiChartExecutionProject :dataSource="statusByProjectGroupDayTop30" title="Curva S dos últimos dias"/>
+                      <button 
+                          type="button" 
+                          style="margin-top:3px"
+                          class="btn btn-xs"
+                          data-toggle="modal" 
+                          data-target="#definitionScurveDaysModal">Definição
+                      </button>
+                      <oiModal id="definitionScurveDaysModal">
+                          <h4 style="margin-top:0; text-align:center"><strong>Gráfico de acompanhamento de Execução (Curva S Últimos Dias).</strong></h4>
+                          <p style="text-align:left">
+                             <b> Planejados </b> = Qtd de CTs com campo 'Planned Exec Date' preenchido para aquele dia.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Realizado </b>= Qtd de CTs com campo 'Status = 'Passed' + 'Exec Date' = Dia relacionado.
+                          </p>
+                          <p style="text-align:left">
+                             <b> GAP </b> = (CTs <> Passed) - (CTs = 'Passed') com planejamento para aquele dia.
+                          </p>
+                          <p style="text-align:left">
+                             A escala temporal é baseada em dias recentes do projeto nos quais ocorreram mudanças quanto aos indicadores acima.
+                          </p>
+                      </oiModal>   
                   </div>
 
                   <div class="col-xs-12 text-center" style="padding-top:10px">
@@ -275,6 +321,31 @@
                         title = "Produtividade X Defeitos Abertos" 
                         :dataSource="productivityXDefects" 
                       />
+                      <button 
+                          type="button" 
+                          style="margin-top:3px"
+                          class="btn btn-xs"
+                          data-toggle="modal" 
+                          data-target="#definitionProductivityxDefects">Definição
+                      </button>
+                      <oiModal id="definitionProductivityxDefects">
+                          <h4 style="margin-top:0; text-align:center"><strong>Gráfico de acompanhamento de Execução (Produtividade X Defeitos Abertos).</strong></h4>
+                          <p style="text-align:left">
+                             <b> Produtividade </b> = Qtd diária de CTs executados + reexecutados ('Passed'' e 'Failed') na tabela 'RUNS'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Realizado </b>= Qtd de 'Passed' NOVO, ou seja, o primeiro status 'Passed' na tabela 'RUNS'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Tot.Def. </b> = Total de defeitos abertos naquele período com 'ORIGEM = AMBIENTE and CONSTRUÇÃO'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Amb. </b> = Total de defeitos abertos com 'ORIGEM = AMBIENTE'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Const. </b> = Total de defeitos abertos com 'ORIGEM = CONSTRUÇÃO'.
+                          </p>
+                      </oiModal>   
                   </div>
                   
                   <div class="col-xs-12 text-center" style="padding-top:10px">
@@ -282,6 +353,34 @@
                         title = "Produtividade X Defeitos Abertos, Semanal" 
                         :dataSource="productivityXDefectsGroupWeekly" 
                       />
+                      <button 
+                          type="button" 
+                          style="margin-top:3px"
+                          class="btn btn-xs"
+                          data-toggle="modal" 
+                          data-target="#definitionproductivityXDefectsGroupWeekly">Definição
+                      </button>
+                      <oiModal id="definitionproductivityXDefectsGroupWeekly">
+                          <h4 style="margin-top:0; text-align:center"><strong>Gráfico de acompanhamento de Execução (Produtividade X Defeitos Abertos, Semanal).</strong></h4>
+                          <p style="text-align:left">
+                             <b> Produtividade </b> = Qtd diária de CTs executados + reexecutados ('Passed'' e 'Failed') na tabela 'RUNS'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Realizado </b>= Qtd de 'Passed' NOVO, ou seja, o primeiro status 'Passed' na tabela 'RUNS'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Tot.Def. </b> = Total de defeitos abertos naquele período com 'ORIGEM = AMBIENTE and CONSTRUÇÃO'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Amb. </b> = Total de defeitos abertos com 'ORIGEM = AMBIENTE'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Const. </b> = Total de defeitos abertos com 'ORIGEM = CONSTRUÇÃO'.
+                          </p>
+                            <p style="text-align:left">
+                             <b> Média CTs dia </b> = CTs Realizados / dias corridos na semana.
+                          </p>
+                      </oiModal>   
                   </div>
               </div>  
 
@@ -304,6 +403,28 @@
                         title = "CTs Impactados X Defeitos Abertos" 
                         :dataSource="ctsImpactedXDefects" 
                       />
+                      <button 
+                          type="button" 
+                          style="margin-top:3px"
+                          class="btn btn-xs"
+                          data-toggle="modal" 
+                          data-target="#definitionctsImpactedXDefects">Definição
+                      </button>
+                      <oiModal id="definitionctsImpactedXDefects">
+                          <h4 style="margin-top:0; text-align:center"><strong>Gráfico de acompanhamento de Execução (CTs Impactados X Defeitos Abertos").</strong></h4>
+                          <p style="text-align:left">
+                             <b> CTs Impact. </b> = Soma dos valores preenchidos no campo 'Qtd CTs Impactados' naquele período.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Tot.Def. </b> = Total de defeitos abertos naquele período com 'ORIGEM = AMBIENTE and CONSTRUÇÃO'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Amb. </b> = Total de defeitos abertos com 'ORIGEM = AMBIENTE'.
+                          </p>
+                          <p style="text-align:left">
+                             <b> Def.Const. </b> = Total de defeitos abertos com 'ORIGEM = CONSTRUÇÃO'.
+                          </p>
+                      </oiModal>   
                   </div>
 
                   <!--

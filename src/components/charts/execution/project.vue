@@ -56,7 +56,7 @@
         this.parameters.series = [
           {
             name: 'Planejado',
-            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
+            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}% <br>(Em relação ao número total de CTs ativos do projeto)' },
             data: this.dataSource.rows[0].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
@@ -66,7 +66,7 @@
           {
             name: 'Realizado',
             color: '#00e600',
-            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
+            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}% <br>(Em relação ao número de planejados para aquele período)' },
             data: this.dataSource.rows[1].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
@@ -76,7 +76,7 @@
           {
             name: 'GAP',
             color: '#ff3333',
-            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
+            tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%<br>(Se o saldo de "PlanejadoxRealizado" for positivo o GAP será 0)' },
             data: this.dataSource.rows[3].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
