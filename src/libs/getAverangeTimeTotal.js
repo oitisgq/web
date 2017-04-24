@@ -14,6 +14,6 @@ export default function (data, severity) {
   return {
     qtyDefects: qtyDefects,
     qtyHours: qtyHours,
-    averageTime: parseFloat(parseFloat(qtyHours / ((qtyDefects !== 0) ? qtyDefects : 1)).toFixed(2))
+    averageHours: parseFloat(parseFloat(qtyHours / ((qtyDefects !== 0) ? qtyDefects : 1)).toFixed(2))
   }
 }

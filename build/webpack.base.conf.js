@@ -25,13 +25,20 @@ module.exports = {
     alias: {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'components': path.resolve(__dirname, '../src/components'),
+      'modules': path.resolve(__dirname, '../src/modules')
     }
   },
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
+    rules: [
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },      
+    ],
     preLoaders: [
       {
         test: /\.vue$/,

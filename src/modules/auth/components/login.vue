@@ -1,23 +1,24 @@
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     name: 'authLogin',
     data () {
       return {
         user: {
-          networkLogin: '',
-          password: ''
+          login: '',
+          cpf: ''
         },
         to: ''
       }
     },
     mounted () {
-      console.log('Login - mounted')
       this.to = this.$route.query.to
     },
     methods: {
       ...mapActions(['attemptLogin']),
+      ...mapGetters(['isLogged']),
+
       doLogin () {
         // this.$store.dispatch('attemptLogin', { ...this.user })
         this.attemptLogin({ ...this.user })
@@ -54,9 +55,9 @@
           })
         })
 
-        var authenticate=function(username,password,callback){
+        var authenticate=function(username,cpf,callback){
           if(!user_config.isCheckUser){
-            getSuccessResult(username,password,null,callback);
+            getSuccessResult(username,cpf,null,callback);
           }else{
             var opts = {
                 filter: '(mail=' + username + ')',
@@ -69,17 +70,17 @@
             client.search(ldap_config.base, opts, function(err, res) {
               res.on('searchEntry', function(entry) {//found the user entry
                 isFoundEntry = true;
-                //check password with bind function
-                if(user_config.isCheckPassword){
-                  client.bind(entry.dn, password, function(err) {//bind successfully
+                //check cpf with bind function
+                if(user_config.isCheckcpf){
+                  client.bind(entry.dn, cpf, function(err) {//bind successfully
                     if (err){
-                      callback(helper.getMessageObject(false,"Your password is not correct."));
+                      callback(helper.getMessageObject(false,"Your cpf is not correct."));
                     }else{
-                      getSuccessResult(username,password,entry,callback);
+                      getSuccessResult(username,cpf,entry,callback);
                     }
                   });
                 }else{
-                  getSuccessResult(username,password,entry,callback);
+                  getSuccessResult(username,cpf,entry,callback);
                 }
               });
               //do action if err happened when search run
@@ -105,7 +106,8 @@
     },
     computed: {
       isUserValid () {
-        return this.user.networkLogin === 'admin' && this.user.password === 'frade'
+        // return this.user.login === 'admin' && this.user.cpf === 'frade'
+        return this.user.login !== ''
       }
     }
   }
@@ -118,18 +120,17 @@
 
         <div class="form-group">
             <label>Login de Rede</label>
-            <input type="text" class="form-control" v-model="user.networkLogin">
+            <input type="text" class="form-control" v-model="user.login">
         </div>
 
         <div class="form-group">
-            <label>Senha</label>
-            <input type="password" class="form-control" v-model="user.password">
+            <label>CPF</label>
+            <input type="text" class="form-control" v-model="user.cpf">
         </div>
 
         <div class="col-xs-12 text-center">
             <button 
               class="btn btn-default btn-sm" 
-              :disabled="!isUserValid" 
               @click="doLogin">Autenticar
             </button>
         </div>

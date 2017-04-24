@@ -22,6 +22,20 @@
       }
     },
 
+    computed: {
+      hasItemsSelected () {
+        if (this.itemsSelected === null || this.itemsSelected === undefined) {
+          return false
+        }
+
+        if (this.itemsSelected.length <= 0) {
+          return false
+        } else {
+          return true
+        }
+      }
+    },
+
     mounted () {
       this.itemsSelectedCpy = this.itemsSelected
     },
@@ -39,7 +53,7 @@
 <template>
   <span>
 
-    <label>{{title}}:</label>
+    <label class="fd-label" v-text="title">:</label>
 
     <button 
         type="button"     
@@ -53,24 +67,26 @@
           :id="idChild"
           :title="title"
           :dataSource="dataSource"
-          :itemsSelected="itemsSelectedCpy"
+          :itemsSelected="itemsSelected"
           @onChangeSelected="changeSelected"
       ></editSelections> 
     </oiModal>
 
+
     <showSelections
-        v-show="itemsSelected.length > 0 && !isShowButtonSelected"
+        v-show="hasItemsSelected && !isShowButtonSelected"
         :dataSource="itemsSelected">
     </showSelections> 
 
+
+
     <button 
         type="button"
-        v-show="itemsSelected.length > 0 && isShowButtonSelected"
+        v-show="hasItemsSelected && isShowButtonSelected"
         class="btn btn-xs"
         data-toggle="modal" 
         :data-target="'#modalShow' + idChild">Selecionados
     </button>       
-
     <oiModal :id="'modalShow' + idChild">
       <showSelections
           :title="title"
@@ -82,4 +98,10 @@
 </template>
 
 <style scoped>
+  .fd-label {
+    margin: 0; 
+    border: 0; 
+    padding: 0; 
+    color: gray;
+  }
 </style>

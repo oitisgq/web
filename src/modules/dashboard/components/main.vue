@@ -19,8 +19,5 @@
         data-target="#xx">teste
     </button>
 
-    <oiModal id="xx">
-      sfsdfdsfdds
-    </oiModal>
   </div>
 </template>

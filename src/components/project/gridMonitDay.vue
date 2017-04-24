@@ -25,7 +25,7 @@
                 <td class="oi-col text-left">
                     {{r.name}}
                 </td>
-                <td class="oi-col text-right" v-for="c in r.valuesDay">
+                <td class="oi-col text-right" v-for="c in r.valuesDay" v-show="r.name != 'Ativo'">
                     {{c.value}}
                 </td>
             </tr>

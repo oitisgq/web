@@ -57,7 +57,7 @@
           {
             name: 'Planejado',
             tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
-            data: this.dataSource.rows[0].valuesAcum.map(i => ({
+            data: this.dataSource.rows[1].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
               percent: i.percent
@@ -67,7 +67,7 @@
             name: 'Realizado',
             color: '#00e600',
             tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
-            data: this.dataSource.rows[1].valuesAcum.map(i => ({
+            data: this.dataSource.rows[2].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
               percent: i.percent
@@ -77,7 +77,7 @@
             name: 'GAP',
             color: '#ff3333',
             tooltip: { pointFormat: 'Qt. CTs: {point.y:.0f}<br> Percentual: {point.percent:.2f}%' },
-            data: this.dataSource.rows[3].valuesAcum.map(i => ({
+            data: this.dataSource.rows[4].valuesAcum.map(i => ({
               name: i.date,
               y: i.value,
               percent: i.percent

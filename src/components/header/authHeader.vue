@@ -33,7 +33,7 @@
               class="dropdown-toggle oi-menu" 
               data-toggle="dropdown"
               style="margin-left:10px">
-                <span class="glyphicon glyphicon-user"/>&nbsp;admin
+                <span class="glyphicon glyphicon-user"/>&nbsp;{{currentUser.name}}
                 <span class="caret"></span>
             </a>
             

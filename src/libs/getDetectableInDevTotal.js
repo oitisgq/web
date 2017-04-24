@@ -9,8 +9,8 @@ export default function (data, percentReference) {
 
   return {
     qtyTotal: qtyTotal,
-    qtyDetectable: qtyDetectable,
-    percentDetectable: parseFloat(parseFloat(qtyDetectable / ((qtyTotal !== 0) ? qtyTotal : 1) * 100).toFixed(2)),
+    qtyDetectableInDev: qtyDetectable,
+    percentDetectableInDev: parseFloat(parseFloat(qtyDetectable / ((qtyTotal !== 0) ? qtyTotal : 1) * 100).toFixed(2)),
     percentReference: percentReference,
     qtyReference: parseFloat(parseFloat(qtyTotal * (percentReference / 100)).toFixed(2))
   }

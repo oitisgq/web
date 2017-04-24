@@ -50,3 +50,10 @@
 
     </div>      
 </template>
+
+<style scoped>
+    body .modal-dialog { /* Width */
+        max-width: 95%;
+        width: auto !important;
+    }
+</style>

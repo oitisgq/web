@@ -1,7 +1,7 @@
 import vueResource from 'src/http/vueResource'
 import serverPaths from 'src/http/serverPaths'
 
-const resource = vueResource.resource(serverPaths.defaultServer + '/defectsDensity{/subproject}{/delivery}')
+const resource = vueResource.resource(serverPaths.default + '/defectsDensity{/subproject}{/delivery}')
 
 export default {
   getByProject (project) {

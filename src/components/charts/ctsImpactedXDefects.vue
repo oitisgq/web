@@ -69,7 +69,7 @@
 </script>
 
 <template>
-  <div style="width:450px; height:400px; margin:0 auto">
+  <div style="width:450px; height:250px; margin:0 auto">
     {{dataSource}}
   </div>
 </template>

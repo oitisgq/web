@@ -1,9 +1,12 @@
 <script>
   import oiGrid from './grid.vue'
   import oiEdit from './edit.vue'
-  import oiShow from 'components/project/show.vue'
+  import oiView from 'components/project/view.vue'
   import services from '../servicesVueResource'
+  import services2 from 'src/modules/project/services'
 
+  import Toastr from 'toastr'
+  
   import servicesDensity from 'src/services/density'
   import getDensityTotal from 'src/libs/getDensityTotal'
 
@@ -32,7 +35,7 @@
   export default {
     name: 'cadProjectsMain',
 
-    components: { oiGrid, oiEdit, oiShow },
+    components: { oiGrid, oiEdit, oiView },
 
     data () {
       return {
@@ -76,7 +79,10 @@
         defectsOpenInDevManuf: [],
         ctsImpactedXDefects: [],
         productivityXDefects: [],
-        productivityXDefectsGroupWeekly: []
+        productivityXDefectsGroupWeekly: [],
+        iterations: [],
+        iterationsActive: [],
+        iterationsSelected: []
       }
     },
 
@@ -101,7 +107,9 @@
           .then(data => {
             console.log(data)
           }) */
-        services.updateOne(this.project)
+        services.updateOne(project)
+        Toastr.success('Dados gravados!')
+
         this.state = 'search'
       },
 
@@ -129,6 +137,9 @@
       selectItem (project, state) {
         this.project = project
         this.state = state
+        this.loadIterations(this.project)
+        this.loadIterationsActive(this.project)
+        this.loadIterationsSelected(this.project)
         this.loadDensityData(this.project)
         this.loadAverangeTimeData(this.project)
         this.loadReopenedData(this.project)
@@ -230,7 +241,37 @@
         servicesProductivityXDefectsGroupWeekly.getByProject(project).then(resp => {
           this.productivityXDefectsGroupWeekly = resp.data
         })
+      },
+
+      loadIterations (project) {
+        services2.getIterations(project)
+          .then(resp => {
+            this.iterations = resp.data
+          }
+        )
+      },
+
+      loadIterationsActive (project) {
+        services2.getIterationsActive(project)
+          .then(resp => {
+            this.iterationsActive = resp.data
+            if (this.iterationsActive.length === 1) {
+              if (this.iterationsActive[0] === '') {
+                this.iterationsActive = []
+              }
+            }
+          }
+        )
+      },
+
+      loadIterationsSelected (project) {
+        services2.getIterationsSelected(project)
+          .then(resp => {
+            this.iterationsSelected = resp.data
+          }
+        )
       }
+
     }
   }
 </script>
@@ -238,88 +279,93 @@
 <template>
   <div id="cadProjectsMain" class="container">
     <div class="row well well-sm">
+      <div class="row">
+        <div class="col-xs-6">
+          <label>Cadastro de Status de Projetos</label>
+        </div>
+        
+        <div class="col-xs-6 text-right">
+          <a class="btn btn-xs my-tool-tip oi-icon"
+            v-show="this.state !== 'search'" 
+            @click="searchItem"
+            data-toggle="tooltip" 
+            title="Pesquisar">
+            <span class="glyphicon glyphicon-search"></span>
+          </a>
 
-    <div class="row">
-      <div class="col-xs-6">
-        <label>Cadastro de Status de Projetos</label>
+          <a class="btn btn-xs my-tool-tip oi-icon"
+            v-show="this.state === 'show'" 
+            @click="editItem"
+            data-toggle="tooltip" 
+            title="Editar">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>                  
+
+          <a class="btn btn-xs my-tool-tip oi-icon" 
+            v-show="this.state === 'edit'" 
+            @click="saveItem(project)"
+            data-toggle="tooltip" 
+            title="Gravar">
+            <span class='glyphicon glyphicon-save'></span>
+          </a>
+
+          <a class="btn btn-xs my-tool-tip oi-icon"
+            v-show="this.state === 'edit'" 
+            @click="showItem"
+            data-toggle="tooltip" 
+            title="Exibir">
+            <span class='glyphicon glyphicon-list-alt'></span>
+          </a>
+        </div>
       </div>
-      
-      <div class="col-xs-6 text-right">
-        <a class="btn btn-xs my-tool-tip oi-icon"
-          v-show="this.state !== 'search'" 
-          @click="searchItem"
-          data-toggle="tooltip" 
-          title="Pesquisar">
-          <span class="glyphicon glyphicon-search"></span>
-        </a>
 
-        <a class="btn btn-xs my-tool-tip oi-icon"
-          v-show="this.state === 'show'" 
-          @click="editItem"
-          data-toggle="tooltip" 
-          title="Editar">
-          <span class="glyphicon glyphicon-pencil"></span>
-        </a>                  
-
-        <a class="btn btn-xs my-tool-tip oi-icon" 
-          v-show="this.state === 'edit'" 
-          @click="saveItem"
-          data-toggle="tooltip" 
-          title="Gravar">
-          <span class='glyphicon glyphicon-save'></span>
-        </a>
-
-        <a class="btn btn-xs my-tool-tip oi-icon"
-          v-show="this.state === 'edit'" 
-          @click="showItem"
-          data-toggle="tooltip" 
-          title="Exibir">
-          <span class='glyphicon glyphicon-list-alt'></span>
-        </a>
+      <div class="row well well-sm oi-well" v-show="this.state=='search'">
+        <input type="text"
+            placeholder="Informe o filtro! Ex: multip+verde"
+            v-model="projectFilterTerm"
+            @keyup="filterProjects"/>
       </div>
+
+      <oiGrid
+        v-show="this.state === 'search'"
+        :dataSource="projectsFilteredByText"
+        @onSelectItem="selectItem"
+      />
+
+      <oiEdit 
+        v-show="this.state=='edit'"
+        :project="project"
+        :densityTotal="densityTotal"
+        :averangeTimeTotal="averangeTimeTotal"
+        :reopenedTotal="reopenedTotal"
+        :detectableInDevTotal="detectableInDevTotal"
+        :iterations="iterations"
+        :iterationsActive="iterationsActive"
+        :iterationsSelected="iterationsSelected"
+      />
+
+      <oiView
+        v-show="this.state=='show'"
+        :project="project"
+        :densityTotal="densityTotal"
+        :averangeTimeTotal="averangeTimeTotal"
+        :reopenedTotal="reopenedTotal"
+        :detectableInDevTotal="detectableInDevTotal"
+        :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
+        :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
+        :statusByProjectGroupMonth="statusByProjectGroupMonth"
+        :defectStatus="defectStatus"
+        :defectGroupOrigin="defectGroupOrigin"
+        :defectsOpenInTestManuf="defectsOpenInTestManuf"
+        :defectsOpenInDevManuf="defectsOpenInDevManuf"
+        :ctsImpactedXDefects="ctsImpactedXDefects"
+        :productivityXDefects="productivityXDefects"
+        :productivityXDefectsGroupWeekly="productivityXDefectsGroupWeekly"
+        :iterations="iterations"
+        :iterationsActive="iterationsActive"
+        :iterationsSelected="iterationsSelected"
+      />    
     </div>
-
-    <div class="row well well-sm oi-well" v-show="this.state=='search'">
-      <input type="text"
-          placeholder="Informe o filtro! Ex: multip+verde"
-          v-model="projectFilterTerm"
-          @keyup="filterProjects"/>
-    </div>
-
-    <oiGrid
-      v-show="this.state === 'search'"
-      :dataSource="projectsFilteredByText"
-      @onSelectItem="selectItem"
-    />
-
-    <oiEdit 
-      v-show="this.state=='edit'"
-      :project="project"
-      :densityTotal="densityTotal"
-      :averangeTimeTotal="averangeTimeTotal"
-      :reopenedTotal="reopenedTotal"
-      :detectableInDevTotal="detectableInDevTotal"
-    />
-
-    <oiShow
-      v-show="this.state=='show'"
-      :project="project"
-      :densityTotal="densityTotal"
-      :averangeTimeTotal="averangeTimeTotal"
-      :reopenedTotal="reopenedTotal"
-      :detectableInDevTotal="detectableInDevTotal"
-      :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
-      :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
-      :statusByProjectGroupMonth="statusByProjectGroupMonth"
-      :defectStatus="defectStatus"
-      :defectGroupOrigin="defectGroupOrigin"
-      :defectsOpenInTestManuf="defectsOpenInTestManuf"
-      :defectsOpenInDevManuf="defectsOpenInDevManuf"
-      :ctsImpactedXDefects="ctsImpactedXDefects"
-      :productivityXDefects="productivityXDefects"
-      :productivityXDefectsGroupWeekly="productivityXDefectsGroupWeekly"
-    />    
-    
   </div>
 </template>
 

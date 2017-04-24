@@ -7,7 +7,9 @@ import beforeEach from './beforeEach'
 
 const router = new VueRouter({
   routes: routes,
-  linkActiveClass: 'active'
+  linkActiveClass: 'active',
+  hashbang: false,
+  history: true
 })
 
 router.beforeEach(beforeEach)

@@ -1563,15 +1563,17 @@
     methods: {
       loadJsonDevManufacturers () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/devManufacturers')
+        _this.$http.get(serverPaths.default + '/devManufacturers')
           .then(
-              r => { _this.devManufacturers = r.data },
+              r => {
+                _this.devManufacturers = r.data
+              },
               e => { console.log(e) }
           )
       },
       loadJsonSystems () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/systems')
+        _this.$http.get(serverPaths.default + '/systems')
           .then(
             r => { _this.systems = r.data },
             e => { console.log(e) }
@@ -1579,7 +1581,7 @@
       },
       loadJsonProjects () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/projects')
+        _this.$http.get(serverPaths.default + '/projects')
           .then(
               r => { _this.projects = r.data },
               e => { console.log(e) }
@@ -1587,7 +1589,7 @@
       },
       loadJsonDensity () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/defectsDensity')
+        _this.$http.get(serverPaths.default + '/defectsDensity')
         .then(
             r => {
               _this.density = r.data
@@ -1599,7 +1601,7 @@
       },
       loadJsonAverageTime () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/DefectsMiddleAges')
+        _this.$http.get(serverPaths.default + '/DefectsMiddleAges')
         .then(
             r => {
               _this.averageTime = r.data
@@ -1611,7 +1613,7 @@
       },
       loadJsonWrongClassif () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/defectsWrongClassif')
+        _this.$http.get(serverPaths.default + '/defectsWrongClassif')
         .then(
             r => { _this.wrongClassif = r.data },
             e => { console.log(e) }
@@ -1619,7 +1621,7 @@
       },
       loadJsonDetectableInDev () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/defectsDetectableInDev')
+        _this.$http.get(serverPaths.default + '/defectsDetectableInDev')
         .then(
             r => {
               _this.detectableInDev = r.data
@@ -1631,7 +1633,7 @@
       },
       loadJsonReopened () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/defectsReopened')
+        _this.$http.get(serverPaths.default + '/defectsReopened')
         .then(
             r => {
               _this.reopened = r.data
@@ -1643,7 +1645,7 @@
       },
       loadJsonNoPrediction () {
         let _this = this
-        _this.$http.get(serverPaths.productionServer + '/defectsNoPrediction')
+        _this.$http.get(serverPaths.default + '/defectsNoPrediction')
         .then(
             r => {
               _this.noPrediction = r.data
@@ -2509,7 +2511,7 @@
       ping () {
         let _this = this
 
-        _this.$http.get(serverPaths.defaultServer + '/ping')
+        _this.$http.get(serverPaths.default + '/ping')
         .then(
           r => {
             // if(_this.pingCounter % 2 === 0) {
@@ -2541,7 +2543,7 @@
         title="Fáb. Desenv"               
         :dataSource="devManufacturers"
         :itemsSelected="devManufacturersSelected"
-        :isShowButtonSelected="false"
+        :isShowButtonSelected="true"
         @onChangeSelected="confirmDevManuf"
       />
     </div>

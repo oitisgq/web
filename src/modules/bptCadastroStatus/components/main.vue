@@ -56,7 +56,7 @@
     methods: {
       loadbptReleases () {
         let _this = this
-        _this.$http.get(serverPaths.defaultServer + '/bptReleases')
+        _this.$http.get(serverPaths.default + '/bptReleases')
           .then(
               r => { _this.bptReleases = r.data },
               e => { console.log(e) }
@@ -65,7 +65,7 @@
       
       loadbptProjects () {
         let _this = this
-        _this.$http.get(serverPaths.defaultServer + '/bptProjects')
+        _this.$http.get(serverPaths.default + '/bptProjects')
           .then(
               r => { _this.bptProjects = r.data },
               e => { console.log(e) }
@@ -74,7 +74,7 @@
       
       loadbptCadastroStatus () {
         let _this = this
-        _this.$http.get(serverPaths.defaultServer + '/bptCadastroStatus')
+        _this.$http.get(serverPaths.default + '/bptCadastroStatus')
           .then(
               r => { 
                 _this.bptCadastroStatus = r.data 

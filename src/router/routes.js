@@ -1,6 +1,6 @@
-import { routes as modulesRotes } from '../modules'
+import { routes as rotesModules } from '../modules'
 
-export default [ ...modulesRotes ]
+export default [ ...rotesModules ]
 
 /*
 const rootRotes = [

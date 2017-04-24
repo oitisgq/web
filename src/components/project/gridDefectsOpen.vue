@@ -9,6 +9,7 @@
     components: { oiModal, oiDefectShow },
 
     props: {
+      project: { type: Object },
       defects: { type: Array },
       id: { type: String }
     },
@@ -21,9 +22,9 @@
     },
 
     methods: {
-      onSelectDefect (defect) {
-        this.selectedDefect = defect
-        serviceDefectDetail.getByDefect(defect).then(resp => {
+      onSelectDefect (defectSelected) {
+        this.selectedDefect = defectSelected
+        serviceDefectDetail.getByDefect(this.project, this.selectedDefect).then(resp => {
           this.selectedDefectDetail = resp.data
         })
 
@@ -59,7 +60,7 @@
                 </td>
 
                 <td class="text-center" style="padding:0">
-                    <font size="2px">Aging (h)</font>
+                    <font size="2px">Aging</font>
                 </td>
 
                 <td class="text-center" style="padding:0">
@@ -85,24 +86,24 @@
                     <font size="2px">{{defect.defect}}</font>
                 </td>
 
-                <td class="text-left" style="padding:0">
+                <td class="text-center" style="padding:0">
                     <font size="1.5px">{{defect.status}}</font>
                 </td>
 
-                <td class="text-left" style="padding:0">
-                    <font size="2px">{{defect.forwardedTo}}</font>
+                <td class="text-center" style="padding:0">
+                    <font size="1.5px">{{defect.forwardedTo}}</font>
                 </td>
 
-                <td class="text-left" style="padding:0">
-                    <font size="2px">{{defect.defectSystem}}</font>
+                <td class="text-center" style="padding:0">
+                    <font size="1.5px">{{defect.defectSystem}}</font>
                 </td>
 
-                <td class="text-right" style="padding:0">
-                    <font size="2px">{{defect.aging}}</font>
+                <td class="text-center" style="padding:0">
+                    <font size="1.5px">{{defect.agingDisplay}}</font>
                 </td>
 
-                <td class="text-right" style="padding:0">
-                    <font size="2px">{{defect.pingPong}}</font>
+                <td class="text-center" style="padding:0">
+                    <font size="1.5px">{{defect.pingPong}}</font>
                 </td>
             </tr>
         </tbody> 

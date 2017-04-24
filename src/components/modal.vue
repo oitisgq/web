@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <div class="modal" :id="id" aria-labelledby="myModalLabel">
+    <div class="modal" :id="id">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -22,3 +22,10 @@
         </div>
     </div>      
 </template>
+
+<style scoped>
+    body .modal-dialog { /* Width */
+        max-width: 95%;
+        width: auto !important;
+    }
+</style>

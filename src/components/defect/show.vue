@@ -3,6 +3,7 @@
     name: 'projectShow',
 
     props: {
+      project: { type: Object },
       defect: { type: Object }
     }
   }
@@ -45,7 +46,7 @@
         <div class="col-xs-10 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
           <div>
             <label class="fd-label">Nome CT:</label><br>
-            <label class="fd-content">skjdf hjasdfhj asfjkg fdshk gksjdg hskjdfhkgdfhg sdfg sfdjkgsh jkfdhsgj fdh gshdfg hsfdkg shkfdhg</label>
+            <label class="fd-content">{{defect.ctName}}</label>
           </div>
         </div>
       </div>
@@ -176,8 +177,8 @@
 
         <div class="col-xs-4 text-left" style="margin:0; border:0; padding:0; padding-left:5px">
           <div>
-            <label class="fd-label">Aging (h):</label><br>
-            <label class="fd-content">{{defect.aging}}</label>
+            <label class="fd-label">Aging:</label><br>
+            <label class="fd-content">{{defect.agingDisplay}}</label>
           </div>
         </div>
       </div>

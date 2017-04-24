@@ -43,10 +43,10 @@
         ]
         this.parameters.tooltip.pointFormat = 'Formula: Detectáveis / Total * 100<br>' +
           'Qt.Total: ' + this.value.qtyTotal + '<br>' +
-          'Qt.Detectável: ' + this.value.qtyDetectable + ' def. (' + this.value.percentDetectable + '%)<br>' +
+          'Qt.Detectável: ' + this.value.qtyDetectableInDev + ' def. (' + this.value.percentDetectableInDev + '%)<br>' +
           'Qt.Referência: ' + this.value.qtyReference + ' def. (' + this.value.percentReference + '%)'
   
-        this.parameters.series = [ { name: 'Horas', colorByPoint: true, data: [ this.value.qtyDetectable ] } ]
+        this.parameters.series = [ { name: 'Horas', colorByPoint: true, data: [ this.value.qtyDetectableInDev ] } ]
       }
     }
   }

@@ -26,7 +26,7 @@
                     {{r.name}}
                 </td>
                 <td class="oi-col text-right" v-for="c in r.valuesAcum">
-                    {{c.value}} <font size=1>{{c.percent}}%</font>
+                    {{c.value}} <font v-show="r.name != 'Produtividade' && r.name != 'Ativo'" size=1> ({{c.percent}}%)</font>
                 </td>
             </tr>
         </tbody> 

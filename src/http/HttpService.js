@@ -35,9 +35,9 @@ export default class HttpService {
   postEmail (url, dado) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest()
-      console.log('aaaaaaaaaaaaaaa')
       xhr.open('POST', url)
       // xhr.setRequestHeader('Content-type', 'application/text')
+      // xhr.setRequestHeader('Content-type', 'multipart/form-data')
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {

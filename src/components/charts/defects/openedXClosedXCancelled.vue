@@ -56,7 +56,7 @@
 
         this.parameters.tooltip.pointFormat = 'Qt.Total: {point.totalDefects:.0f} <br>Qt.: {point.y:.0f} <br>{point.percent:.2f}%:'
 
-        this.parameters.plotOptions.pie.dataLabels.format = '{point.name} <br>{point.y:.0f} {point.percent:.0f}%'
+        this.parameters.plotOptions.pie.dataLabels.format = '{point.name} <br>{point.y:.0f} ({point.percent:.0f}%)'
 
         /*
         this.parameters.series = [

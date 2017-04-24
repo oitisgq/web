@@ -31,7 +31,7 @@
     methods: {
       loadParameters () {
         let limitSupGreen = 4
-        let limitSupRed = (this.value.averageTime > 30 ? this.value.averageTime : 30)
+        let limitSupRed = (this.value.averageHours > 30 ? this.value.averageHours : 30)
 
         this.parameters.title.text = 'Tempo Médio - High'
         this.parameters.yAxis.title.text = 'Horas'
@@ -44,10 +44,10 @@
         this.parameters.tooltip.pointFormat = 'Formula: Horas / Defeitos<br>' +
           'Qt.Horas: ' + this.value.qtyHours + '<br>' +
           'Qt.Defeitos: ' + this.value.qtyDefects + '<br>' +
-          'Tempo Médio: ' + this.value.averageTime + '(h)<br>' +
+          'Tempo Médio: ' + this.value.averageHours + '(h)<br>' +
           'Tempo Limite: ' + limitSupGreen + '(h)'
   
-        this.parameters.series = [ { name: 'Horas', colorByPoint: true, data: [ this.value.averageTime ] } ]
+        this.parameters.series = [ { name: 'Horas', colorByPoint: true, data: [ this.value.averageHours ] } ]
       }
     }
   }

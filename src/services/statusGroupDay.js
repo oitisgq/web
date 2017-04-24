@@ -1,7 +1,7 @@
 import vueResource from 'src/http/vueResource'
 import serverPaths from 'src/http/serverPaths'
 
-const resource = vueResource.resource(serverPaths.defaultServer + '/statusGroupDay{/subproject}{/delivery}')
+const resource = vueResource.resource(serverPaths.default + '/statusGroupDay{/subproject}{/delivery}')
 
 export default {
   getByProject (project) {
