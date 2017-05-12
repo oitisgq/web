@@ -3,7 +3,7 @@
   import oiShow from 'components/project/show.vue'
   // import oiShowReport from 'components/project/showReport.vue'
   import oiModal from 'components/modal_.vue'
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
 
   import services from '../services'
   // import servicesProject from 'src/services/project'
@@ -138,9 +138,9 @@
           from: 'sgq@oi.net.br',
           to: 'joao.frade@oi.net.br',
           subject: 'Titulo da mensagem',
-          url: 'http://sgqhml.intranet/dist/index.html'
+          url: 'http://sgq.intranet/dist/index.html'
         }
-        this.$http.post(serverPaths.default + '/send', email)
+        this.$http.post(webApiPath.default + '/send', email)
       },
       // url: 'http://sgq.intranet/dist/index.html'
 

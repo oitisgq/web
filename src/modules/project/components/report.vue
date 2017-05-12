@@ -225,7 +225,6 @@
 
 <template>
     <div class="container-fluid well well-sm">
-    {{showHeader}}
       <oiReport
         :project="project"
         :densityTotal="densityTotal"

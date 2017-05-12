@@ -5,7 +5,7 @@
   import oiShow from 'components/project/show.vue'
   import oiReport from 'components/project/showReport.vue'
 
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
   import servicesProject from 'src/services/project'
   
   import servicesDensity from 'src/services/density'
@@ -144,9 +144,8 @@
       },
 
       sendReportByEmail () {
-        // this.email.url = 'http://sgq.intranet/dist/index.html#/project/report/' + this.project.subproject + '/' + this.project.delivery
-        this.email.url = 'http://sgqhml.intranet/dist/index.html#/project/report/' + this.project.subproject + '/' + this.project.delivery
-        this.$http.post(serverPaths.default + '/SendEmail', this.email)
+        this.email.url = 'http://sgq.intranet/dist/index.html#/project/report/' + this.project.subproject + '/' + this.project.delivery
+        this.$http.post(webApiPath.default + '/SendEmail', this.email)
         Toastr.success('Email enviado!')
       },
 

@@ -86,8 +86,8 @@
           <div class="col-xs-12" style="margin:0; border:0; padding:0; padding-left:5px">
             <br>
             <div>
-              <label class="fd-label">Objetivos (Clarity):</label>
-              <label class="fd-content">{{project.objective}}</label>
+              <label class="fd-label" v-text="">Objetivos (Clarity):</label>
+              <label class="fd-content" v-html="project.objective"/>
             </div>
           </div>
       </div>

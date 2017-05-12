@@ -24,7 +24,7 @@
                 <router-link :to="{ name: 'trg' }" tag="li">
                     <a class="oi-menu"
                         href="#"
-                        onclick="window.open('http://sgqhml.intranet/Mobile_Status_TRG_Menu.aspx', 
+                        onclick="window.open('http://sgq.intranet/Mobile_Status_TRG_Menu.aspx', 
                             'newwindow', 
                             'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes'
                         ); 
@@ -35,7 +35,7 @@
                 <router-link :to="{ name: 'releases' }" tag="li">
                     <a class="oi-menu" style="height:20px;margin:0;padding-top:0px;" 
                         href="#"
-                        onclick="window.open('http://sgqhml.intranet/Mobile_Status_Release_Menu.aspx', 
+                        onclick="window.open('http://sgq.intranet/Mobile_Status_Release_Menu.aspx', 
                             'newwindow', 
                             'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes'
                         );
@@ -46,7 +46,7 @@
                 <router-link :to="{ name: 'dashboard' }" tag="li">
                     <a class="oi-menu"
                         href="#"
-                        onclick="window.open('http://sgqhml.intranet/Mobile_Painel_Menu.aspx', 
+                        onclick="window.open('http://sgq.intranet/Mobile_Painel_Menu.aspx', 
                             'newwindow', 
                             'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes'
                         ); 
@@ -59,7 +59,7 @@
         <router-link :to="{ name: 'defectMonitor' }" tag="li">
             <a class="oi-menu" 
                 href="#"
-                onclick="window.open('http://sgqhml.intranet/Mobile_Monitor_Defeitos_Menu.aspx', 
+                onclick="window.open('http://sgq.intranet/Mobile_Monitor_Defeitos_Menu.aspx', 
                     'newwindow', 
                     'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes'
                 ); 

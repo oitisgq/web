@@ -1,7 +1,7 @@
 import vueResource from 'src/http/vueResource'
-import serverPaths from 'src/http/serverPaths'
+import webApiPath from 'src/http/webApiPath'
 
-const resource = vueResource.resource(serverPaths.default + '/ctsImpactedXDefects{/subproject}{/delivery}')
+const resource = vueResource.resource(webApiPath.default + '/ctsImpactedXDefects{/subproject}{/delivery}')
 
 export default {
   getByProject (project) {

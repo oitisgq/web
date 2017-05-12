@@ -16,10 +16,10 @@
 
 <template>
   <div>
-    <table class="table table-condensed table-striped table-hover table-bordered" >
+    <table class="table table-condensed table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th class="text-center" style="padding:0; width:26px;">
+                <th class="text-center" style="padding:0; width:26px">
                 </th>                                
             
                 <th class="text-center" style="padding:0; width:26px;">
@@ -95,7 +95,7 @@
                  -->
                   <a 
                      href="#"
-                     :onclick="'window.open(\'http://sgqhml.intranet/dist/index.html#/project/show/' + item.subproject + '/' + item.delivery + '\', \'newwindow\', \'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes\'); return false;'">
+                     :onclick="'window.open(\'http://sgq.intranet/dist/index.html#/project/show/' + item.subproject + '/' + item.delivery + '\', \'newwindow\', \'fullscreen=yes, titlebar=no, toolbar=no, location=no, channelmode=0no, status=no, menubar=no, scrollbars=yes, resizable=yes\'); return false;'">
                      <i class='glyphicon glyphicon-list-alt' style="padding-top:4px"></i>
                   </a>
 
@@ -109,59 +109,32 @@
                     </div>
                 </td>
 
-                <!--
-                <td class="text-center" style="padding:1px">
-                    <font size="2px">{{item.classification ? item.classification.substring(0,3) : ''}}</font>
+                <td class="text-center" style="padding:1px; font-size:11px">
+                    {{item.subprojectDelivery}}
                 </td>
 
-                <td class="text-center" style="padding:1px">
-                    <font size="2px">{{item.release}}</font>
-                </td>
-                -->
-
-                <td class="text-center" style="padding:1px">
-                    <font size="2px">{{item.subprojectDelivery}}</font>
+                <td class="text-left" style="padding:1px; font-size:11px">
+                    {{item.name}}
                 </td>
 
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px">{{item.name}}</font>
+                <td class="text-left" style="padding:1px; font-size:11px">
+                    {{item.UN}}
                 </td>
 
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px">{{item.UN}}</font>
+                <td class="text-left" style="padding:1px; font-size:11px">
+                    {{item.N3}}
                 </td>
 
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px">{{item.N3}}</font>
+                <td class="text-left" style="padding:1px; font-size:11px">
+                    {{item.GP}}
                 </td>
 
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px">{{item.GP}}</font>
+                <td class="text-center" style="padding:1px; font-size:11px">
+                    {{item.gap}}
                 </td>
-
-                <td class="text-center" style="padding:1px">
-                    <font size="1.5px">{{item.gap}}</font>
+                <td class="text-left" style="padding:1px; font-size:11px">
+                    <span v-html="item.informative"/>
                 </td>
-
-
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px" v-html="item.informative"></font>
-                </td>
-
-                <!--
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px" v-html="item.rootCause"></font>
-                </td>
-
-                <td class="text-left" style="padding:1px">
-                    <font size="1.5px" v-html="item.actionPlan"></font>
-                </td>
-
-                <!--
-                <td class="text-center" style="padding:1px">
-                    <font size="1.5px">{{item.state}}</font>
-                </td>
-                -->
             </tr>
         </tbody> 
     </table>

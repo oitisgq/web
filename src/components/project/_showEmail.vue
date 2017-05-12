@@ -21,7 +21,7 @@
 
   // import HttpService from 'src/http/HttpService'
   // import vueResource from 'src/http/vueResource'
-  // import serverPaths from 'src/http/serverPaths'
+  // import webApiPath from 'src/http/webApiPath'
 
   export default {
     name: 'projectShowReport',
@@ -89,7 +89,7 @@
           from: 'sgq@oi.net.br',
           to: 'joao.frade@oi.net.br',
           subject: 'subject - client',
-          url: 'http://sgqhml.intranet/dist/index.html#/project/report/PRJ00000744/ENTREGA00000179'
+          url: 'http://sgq.intranet/dist/index.html#/project/report/PRJ00000744/ENTREGA00000179'
         }
         //  url: 'http://sgq.intranet/dist/index.html#/project/report/PRJ00000744/ENTREGA00000179'
 

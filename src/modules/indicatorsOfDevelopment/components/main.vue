@@ -29,7 +29,7 @@
   import oiShowAnalytical from './rules&analytics/showAnalytical.vue'
   import oiModal from 'components/modal.vue'
 
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
 
   export default {
     name: 'indicatorsOfDevelopment',
@@ -39,6 +39,7 @@
     data () {
       return {
         pingCounter: 0,
+        messageTimeline: false,
 
         devManufacturers: [],
         devManufacturersSelected: [],
@@ -57,6 +58,9 @@
         inEdit: false,
 
         density: [],
+        // densityDay: [],
+        // densityLastDay: [],
+        densityTimeline: [],
         densityFiltered: [],
         densityOptionsDrillDown: OptionsDrillDown(),
         densityOptionsTimeline: OptionsTimeline(),
@@ -65,6 +69,9 @@
         densitySystemSelected: '',
 
         averageTime: [],
+        // averageTimeDay: [],
+        // averageTimeLastDay: [],
+        averageTimeline: [],
         averageTimeFiltered: [],
         averageTimeOptionsDrillDown: OptionsDrillDown(),
         averageTimeOptionsTimeline: OptionsTimeline(),
@@ -75,6 +82,9 @@
         severitySelected: 'HIGH',
 
         wrongClassif: [],
+        // wrongClassifDay: [],
+        // wrongClassifLastDay: [],
+        wrongClassifTimeline: [],
         wrongClassifFiltered: [],
         wrongClassifOptionsDrillDown: OptionsDrillDown(),
         wrongClassifOptionsTimeline: OptionsTimeline(),
@@ -83,6 +93,9 @@
         wrongClassifSystemSelected: '',
 
         detectableInDev: [],
+        // detectableInDevDay: [],
+        // detectableInDevLastDay: [],
+        detectableInDevTimeline: [],
         detectableInDevFiltered: [],
         detectableInDevOptionsDrillDown: OptionsDrillDown(),
         detectableInDevOptionsTimeline: OptionsTimeline(),
@@ -91,6 +104,9 @@
         detectableInDevSystemSelected: '',
 
         reopened: [],
+        // reopenedDay: [],
+        // reopenedLastDay: [],
+        reopenedTimeline: [],
         reopenedFiltered: [],
         reopenedOptionsDrillDown: OptionsDrillDown(),
         reopenedOptionsTimeline: OptionsTimeline(),
@@ -99,6 +115,9 @@
         reopenedSystemSelected: '',
 
         noPrediction: [],
+        // noPredictionDay: [],
+        // noPredictionLastDay: [],
+        noPredictionTimeline: [],
         noPredictionFiltered: [],
         noPredictionOptionsDrillDown: OptionsDrillDown(),
         noPredictionOptionsTimeline: OptionsTimeline(),
@@ -1563,7 +1582,7 @@
     methods: {
       loadJsonDevManufacturers () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/devManufacturers')
+        _this.$http.get(webApiPath.default + '/devManufacturers')
           .then(
               r => {
                 _this.devManufacturers = r.data
@@ -1573,7 +1592,7 @@
       },
       loadJsonSystems () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/systems')
+        _this.$http.get(webApiPath.default + '/systems')
           .then(
             r => { _this.systems = r.data },
             e => { console.log(e) }
@@ -1581,7 +1600,7 @@
       },
       loadJsonProjects () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/projects')
+        _this.$http.get(webApiPath.default + '/projects')
           .then(
               r => { _this.projects = r.data },
               e => { console.log(e) }
@@ -1589,7 +1608,7 @@
       },
       loadJsonDensity () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/defectsDensity')
+        _this.$http.get(webApiPath.default + '/defectsDensity')
         .then(
             r => {
               _this.density = r.data
@@ -1601,7 +1620,7 @@
       },
       loadJsonAverageTime () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/DefectsMiddleAges')
+        _this.$http.get(webApiPath.default + '/DefectsMiddleAges')
         .then(
             r => {
               _this.averageTime = r.data
@@ -1613,7 +1632,7 @@
       },
       loadJsonWrongClassif () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/defectsWrongClassif')
+        _this.$http.get(webApiPath.default + '/defectsWrongClassif')
         .then(
             r => { _this.wrongClassif = r.data },
             e => { console.log(e) }
@@ -1621,7 +1640,7 @@
       },
       loadJsonDetectableInDev () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/defectsDetectableInDev')
+        _this.$http.get(webApiPath.default + '/defectsDetectableInDev')
         .then(
             r => {
               _this.detectableInDev = r.data
@@ -1633,7 +1652,7 @@
       },
       loadJsonReopened () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/defectsReopened')
+        _this.$http.get(webApiPath.default + '/defectsReopened')
         .then(
             r => {
               _this.reopened = r.data
@@ -1645,7 +1664,7 @@
       },
       loadJsonNoPrediction () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/defectsNoPrediction')
+        _this.$http.get(webApiPath.default + '/defectsNoPrediction')
         .then(
             r => {
               _this.noPrediction = r.data
@@ -1697,6 +1716,7 @@
       confirmProjects (itemsSelected) {
         this.projectsSelected = itemsSelected
         this.projectsConfirmed = true
+        this.messageTimeline = false
         this.inEdit = false
 
         // FILTRAR DADOS COM BASE NOS FILTROS INFORMADOS
@@ -1737,7 +1757,145 @@
         this.loadNoPredictionChartTimeline()
         this.loadNoPredictionChartTotal()
       },
+      confirmProjectsTimeline (itemsSelected, dataDens, dataAg, dataWr, dataDet, dataReop, dataPred) {
+        this.projectsSelected = itemsSelected
+        this.projectsConfirmed = true
+        this.messageTimeline = true
+        this.inEdit = false
+        this.densityTimeline = dataDens
+        this.averageTimeline = dataAg
+        this.wrongClassifTimeline = dataWr
+        this.detectableInDevTimeline = dataDet
+        this.reopenedTimeline = dataReop
+        this.noPredictionTimeline = dataPred
 
+        // FILTRAR DADOS COM BASE NOS FILTROS INFORMADOS
+        this.densityFiltered = this.filterData(this.densityTimeline)
+        this.averageTimeFiltered = this.filterData(this.averageTimeline)
+        this.wrongClassifFiltered = this.filterData(this.wrongClassifTimeline)
+        this.detectableInDevFiltered = this.filterData(this.detectableInDevTimeline)
+        this.reopenedFiltered = this.filterData(this.reopenedTimeline)
+        this.noPredictionFiltered = this.filterData(this.noPredictionTimeline)
+
+        // ATUALIZAR GRÁFICOS - DENSIDADE
+        this.loadDensityChartDevManuf()
+        this.loadDensityChartTimeline()
+        this.loadDensityChartTotal()
+
+        // ATUALIZAR GRÁFICOS - TEMPO MÉDIO
+        this.loadAverageTimeChartDevManuf()
+        this.loadAverageTimeChartTimeline()
+        this.loadAverageTimeChartTotal()
+
+        // ATUALIZAR GRÁFICOS - CLASSICAÇÃO ERRADA
+        this.loadWrongClassifChartDevManuf()
+        this.loadWrongClassifChartTimeline()
+        this.loadWrongClassifChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. DETECTÁVEIS EM DES.
+        this.loadDetectableInDevChartDevManuf()
+        this.loadDetectableInDevChartTimeline()
+        this.loadDetectableInDevChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. REABERTOS
+        this.loadReopenedChartDevManuf()
+        this.loadReopenedChartTimeline()
+        this.loadReopenedChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. SEM PREVISÃO
+        this.loadNoPredictionChartDevManuf()
+        this.loadNoPredictionChartTimeline()
+        this.loadNoPredictionChartTotal()
+      },
+      /*
+      confirmProjectsDay (itemsSelected) {
+        this.projectsSelected = itemsSelected
+        this.projectsConfirmed = true
+        this.inEdit = false
+
+        // FILTRAR DADOS COM BASE NOS FILTROS INFORMADOS
+        this.densityFiltered = this.filterData(this.densityDay)
+        this.averageTimeFiltered = this.filterData(this.averageTimeDay)
+        this.wrongClassifFiltered = this.filterData(this.wrongClassifDay)
+        this.detectableInDevFiltered = this.filterData(this.detectableInDevDay)
+        this.reopenedFiltered = this.filterData(this.reopenedDay)
+        this.noPredictionFiltered = this.filterData(this.noPredictionDay)
+
+        // ATUALIZAR GRÁFICOS - DENSIDADE
+        this.loadDensityChartDevManuf()
+        this.loadDensityChartTimeline()
+        this.loadDensityChartTotal()
+
+        // ATUALIZAR GRÁFICOS - TEMPO MÉDIO
+        this.loadAverageTimeChartDevManuf()
+        this.loadAverageTimeChartTimeline()
+        this.loadAverageTimeChartTotal()
+
+        // ATUALIZAR GRÁFICOS - CLASSICAÇÃO ERRADA
+        this.loadWrongClassifChartDevManuf()
+        this.loadWrongClassifChartTimeline()
+        this.loadWrongClassifChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. DETECTÁVEIS EM DES.
+        this.loadDetectableInDevChartDevManuf()
+        this.loadDetectableInDevChartTimeline()
+        this.loadDetectableInDevChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. REABERTOS
+        this.loadReopenedChartDevManuf()
+        this.loadReopenedChartTimeline()
+        this.loadReopenedChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. SEM PREVISÃO
+        this.loadNoPredictionChartDevManuf()
+        this.loadNoPredictionChartTimeline()
+        this.loadNoPredictionChartTotal()
+      },
+
+      confirmProjectsLastDay (itemsSelected) {
+        this.projectsSelected = itemsSelected
+        this.projectsConfirmed = true
+        this.inEdit = false
+
+        // FILTRAR DADOS COM BASE NOS FILTROS INFORMADOS
+        this.densityFiltered = this.filterData(this.densityLastDay)
+        this.averageTimeFiltered = this.filterData(this.averageTimeLastDay)
+        this.wrongClassifFiltered = this.filterData(this.wrongClassifLastDay)
+        this.detectableInDevFiltered = this.filterData(this.detectableInDevLastDay)
+        this.reopenedFiltered = this.filterData(this.reopenedLastDay)
+        this.noPredictionFiltered = this.filterData(this.noPredictionLastDay)
+
+        // ATUALIZAR GRÁFICOS - DENSIDADE
+        this.loadDensityChartDevManuf()
+        this.loadDensityChartTimeline()
+        this.loadDensityChartTotal()
+
+        // ATUALIZAR GRÁFICOS - TEMPO MÉDIO
+        this.loadAverageTimeChartDevManuf()
+        this.loadAverageTimeChartTimeline()
+        this.loadAverageTimeChartTotal()
+
+        // ATUALIZAR GRÁFICOS - CLASSICAÇÃO ERRADA
+        this.loadWrongClassifChartDevManuf()
+        this.loadWrongClassifChartTimeline()
+        this.loadWrongClassifChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. DETECTÁVEIS EM DES.
+        this.loadDetectableInDevChartDevManuf()
+        this.loadDetectableInDevChartTimeline()
+        this.loadDetectableInDevChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. REABERTOS
+        this.loadReopenedChartDevManuf()
+        this.loadReopenedChartTimeline()
+        this.loadReopenedChartTotal()
+
+        // ATUALIZAR GRÁFICOS - DEF. SEM PREVISÃO
+        this.loadNoPredictionChartDevManuf()
+        this.loadNoPredictionChartTimeline()
+        this.loadNoPredictionChartTotal()
+      },
+      */
       // GRÁFICOS DE DENSIDADE
 
       loadDensityChartDevManuf () {
@@ -2511,7 +2669,7 @@
       ping () {
         let _this = this
 
-        _this.$http.get(serverPaths.default + '/ping')
+        _this.$http.get(webApiPath.default + '/ping')
         .then(
           r => {
             // if(_this.pingCounter % 2 === 0) {
@@ -2574,7 +2732,9 @@
         :dataSource="projectsFiltered"
         :selected="projectsSelected"
         :confirmed="projectsConfirmed"
+        :messageTimeline="messageTimeline"
         @onConfirmData="confirmProjects"
+        @onConfirmDataTimeline="confirmProjectsTimeline"
         @onNewSelected="newSelectedProjects"
         @onEnterInEdit="enterInEdit">
       </oiSelectionProjects>

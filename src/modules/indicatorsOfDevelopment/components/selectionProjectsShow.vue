@@ -6,7 +6,10 @@
 
     props: {
       dataSource: { type: Array },
-      numberOfProjects: { type: Number }
+      numberOfProjects: { type: Number },
+      date1: { type: String },
+      date2: { type: String },
+      messageTimeline: { type: Boolean }
     },
 
     components: { oiModal },
@@ -14,19 +17,38 @@
     computed: {
       message () {
         let projects = this.numberOfProjects ? 'Encontrados: <b>' + this.numberOfProjects + '</b>' : ''
-        let selected = this.dataSource.length ? 'selecionados: <b>' + this.dataSource.length + '</b>' : ''
-        if (selected !== '') {
+        let selected = this.dataSource.length ? 'Selecionados: <b>' + this.dataSource.length + '</b>' : ''
+        let timeScope1 = this.date1.length ? 'Data Início: <b>' + this.convertDate(this.date1) + '</b>' : ''
+        let timeScope2 = this.date2.length ? 'Data Fim: <b>' + this.convertDate(this.date2) + '</b>' : ''
+        if (selected !== '' || timeScope1 !== '' || timeScope2 !== '') {
           projects = projects + ', '
         }
-        return projects + selected
+        if (timeScope1 !== '' || timeScope2 !== '') {
+          selected = selected + ', '
+        }
+        if (timeScope2 !== '') {
+          timeScope1 = timeScope1 + ', '
+        }
+        if (this.messageTimeline === true) {
+          return projects + selected + timeScope1 + timeScope2
+        } else {
+          return projects + selected
+        }
       }
     },
 
     methods: {
       EnterInEdit () {
         this.$emit('onEnterInEdit')
+      },
+      convertDate (inputFormat) {
+        var year = inputFormat.substr(0, 4)
+        var month = inputFormat.slice(5, 7) - 1
+        var day = inputFormat.slice(8)
+        function pad (s) { return (s < 10) ? '0' + s : s }
+        var d = new Date(year, month, day)
+        return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
       }
-
     }
   }
 

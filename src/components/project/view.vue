@@ -1,7 +1,7 @@
 <script>
   import oiProjectHeader from './header'
   import oiSelection from 'components/selections/selections.vue'
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
 
   import oiChartDensityTotal from 'components/charts/defects/densityTotal'
   import oiChartReopenedTotal from 'components/charts/defects/reopenedTotal'
@@ -22,7 +22,7 @@
   // import domtoimage from 'dom-to-image'
   // import HttpService from 'src/http/HttpService'
   // import vueResource from 'src/http/vueResource'
-  // import serverPaths from 'src/http/serverPaths'
+  // import webApiPath from 'src/http/webApiPath'
 
   export default {
     name: 'projectShow',
@@ -111,7 +111,7 @@
           body: myPage
         }
 
-        this.$http.post(serverPaths.default + '/SaveImageByHtml', email)
+        this.$http.post(webApiPath.default + '/SaveImageByHtml', email)
       },
 
       selectDefect (defect) {

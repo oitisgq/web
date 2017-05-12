@@ -5,7 +5,11 @@
 
   export default {
     name: 'app',
-    components: { oiHeader }
+    components: { oiHeader },
+    data () {
+      return {
+      }
+    }
     /*
     created () {
       let _this = this

@@ -2,7 +2,7 @@
   /* eslint-disable */
   import oiSelection from 'components/selections/selections.vue'
   import oiSelectionBpts from './selectionBpts.vue'
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
 
   export default {
     name: 'bptValidacaoPlano',
@@ -57,7 +57,7 @@
     methods: {
       loadbptReleases () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/bptReleases')
+        _this.$http.get(webApiPath.default + '/bptReleases')
           .then(
               r => { _this.bptReleases = r.data },
               e => { console.log(e) }
@@ -66,7 +66,7 @@
       
       loadbptProjects () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/bptProjects')
+        _this.$http.get(webApiPath.default + '/bptProjects')
           .then(
               r => { _this.bptProjects = r.data },
               e => { console.log(e) }
@@ -75,7 +75,7 @@
       
       loadbptValidPlanoEvid () {
         let _this = this
-        _this.$http.get(serverPaths.default + '/bptValidPlanoEvid')
+        _this.$http.get(webApiPath.default + '/bptValidPlanoEvid')
           .then(
               r => { 
                 _this.bptValidPlanoEvid = r.data 

@@ -3,7 +3,8 @@
   import oiModal from 'components/modal_.vue'
   // import oiShowReport from 'components/project/showReport.vue'
   import oiReport from 'components/project/showReport.vue'
-  import serverPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
+  import webAppPath from 'src/http/webAppPath'
   import Toastr from 'toastr'
   import 'babel-polyfill'
 
@@ -283,11 +284,13 @@
       },
 
       sendReportByEmail () {
-        // this.email.url = 'http://localhost:8080/#/project/report/' + this.project.subproject + '/' + this.project.delivery
-        // this.email.url = 'http://sgq.intranet/dist/index.html#/project/report/' + this.project.subproject + '/' + this.project.delivery
-        this.email.url = 'http://sgqhml.intranet/dist/index.html#/project/report/' + this.project.subproject + '/' + this.project.delivery
-        this.$http.post(serverPaths.default + '/SendEmail', this.email)
-        Toastr.success('E-mail enviado!')
+        this.email.url = webAppPath.default + '/project/report/' + this.project.subproject + '/' + this.project.delivery
+        Toastr.info('E-mail solicitado! Pode continuar a usar a aplicação...', '', { timeOut: 20000 })
+        this.$http.post(webApiPath.default + '/SendEmail', this.email).then(r => {
+          Toastr.success('E-mail enviado!', '', { timeOut: 15000 })
+        }, e => {
+          Toastr.error('Não foi possível enviar o e-mail. Tente novamente!', '', { timeOut: 15000 })
+        })
       },
 
       closeModalShowReport () {

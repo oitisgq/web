@@ -1,41 +1,22 @@
 <script>
+  import oiModal from 'components/modal_.vue'
+  import oiReport from 'components/project/showReport.vue'
+  import webApiPath from 'src/http/webApiPath'
+  import webAppPath from 'src/http/webAppPath'
+  import Toastr from 'toastr'
+
   import oiGrid from './grid.vue'
   import oiEdit from './edit.vue'
   import oiView from 'components/project/view.vue'
-  import services from '../servicesVueResource'
+  import services from '../services'
   import services2 from 'src/modules/project/services'
-
-  import Toastr from 'toastr'
   
-  import servicesDensity from 'src/services/density'
-  import getDensityTotal from 'src/libs/getDensityTotal'
-
-  import servicesAverangeTime from 'src/services/averangeTime'
-  import getAverangeTimeTotal from 'src/libs/getAverangeTimeTotal'
-
-  import servicesReopened from 'src/services/reopened'
-  import getReopenedTotal from 'src/libs/getReopenedTotal'
-
-  import servicesDetectableInDev from 'src/services/detectableInDev'
-  import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
-
-  import servicesStatusGroupDay from 'src/services/statusGroupDay'
-  import servicesStatusGroupMonth from 'src/services/statusGroupMonth'
-  import servicesDefectsStatus from 'src/services/defectsStatus'
-
-  import servicesDefectsGroupOrigin from 'src/services/defectsGroupOrigin'
-  import servicesDefectsOpenInTestManuf from 'src/services/defectsOpenInTestManuf'
-  import servicesDefectsOpenInDevManuf from 'src/services/defectsOpenInDevManuf'
-  import servicesCtsImpactedXDefects from 'src/services/ctsImpactedXDefects'
-  import servicesProductivityXDefects from 'src/services/productivityXDefects'
-  import servicesProductivityXDefectsGroupWeekly from 'src/services/productivityXDefectsGroupWeekly'
-
   import getStatusTrans from 'src/libs/getStatusTrans'
 
   export default {
     name: 'cadProjectsMain',
 
-    components: { oiGrid, oiEdit, oiView },
+    components: { oiModal, oiReport, oiGrid, oiEdit, oiView },
 
     data () {
       return {
@@ -82,7 +63,14 @@
         productivityXDefectsGroupWeekly: [],
         iterations: [],
         iterationsActive: [],
-        iterationsSelected: []
+        iterationsSelected: [],
+
+        email: {
+          from: 'sgq@oi.net.br',
+          to: '',
+          subject: '',
+          url: ''
+        }
       }
     },
 
@@ -95,8 +83,13 @@
         /* getProjects().then(data => {
           this.projects = data
           this.projectsFilteredByText = data
-        }) */
+        })
         services.getAll({}).then(resp => {
+          this.projects = resp.data
+          this.projectsFilteredByText = resp.data
+        })
+        */
+        services.getProjects().then(resp => {
           this.projects = resp.data
           this.projectsFilteredByText = resp.data
         })
@@ -107,8 +100,10 @@
           .then(data => {
             console.log(data)
           }) */
-        services.updateOne(project)
-        Toastr.success('Dados gravados!')
+
+        services.update(project).then(r => {
+          Toastr.success('Dados gravados!')
+        })
 
         this.state = 'search'
       },
@@ -130,10 +125,6 @@
         }
       },
 
-      searchItem () {
-        this.state = 'search'
-      },
-
       selectItem (project, state) {
         this.project = project
         this.state = state
@@ -153,6 +144,9 @@
         this.loadCtsImpactedXDefects(this.project)
         this.loadProductivityXDefects(this.project)
         this.loadProductivityXDefectsGroupWeekly(this.project)
+
+        let subprojectDelivery = this.project.subprojectDelivery.split(' ')
+        this.email.subject = '[Status TI] SubPrj: ' + subprojectDelivery[0] + ', Ent: ' + subprojectDelivery[1] + ', Nome: ' + this.project.name
       },
 
       showItem () {
@@ -163,35 +157,78 @@
         this.state = 'edit'
       },
 
+      searchItem () {
+        this.state = 'search'
+      },
+
+      showReport () {
+        this.state = 'showReport'
+      },
+
+      closeModalShowReport () {
+        this.state = 'show'
+      },
+
+      sendReportByEmail () {
+        this.email.url = webAppPath.default + '/project/report/' + this.project.subproject + '/' + this.project.delivery
+        Toastr.info('E-mail solicitado! Pode continuar a usar a aplicação...', '', { timeOut: 20000 })
+        this.$http.post(webApiPath.default + '/SendEmail', this.email).then(r => {
+          Toastr.success('E-mail enviado!', '', { timeOut: 15000 })
+        }, e => {
+          Toastr.error('Não foi possível enviar o e-mail. Tente novamente!', '', { timeOut: 15000 })
+        })
+      },
+
       loadDensityData (project) {
+        /*
         servicesDensity.getByProject(project).then(resp => {
           this.densityByProject = resp.data
           this.densityTotal = getDensityTotal(resp.data)
         })
+        */
+        services.getDensity(this.project).then(resp => {
+          this.densityTotal = resp.data
+        })
       },
 
       loadAverangeTimeData (project) {
+        /*
         servicesAverangeTime.getByProject(project).then(resp => {
           this.averangeTimeByProject = resp.data
           this.averangeTimeTotal = getAverangeTimeTotal(resp.data, 'HIGH')
         })
+        */
+        services.getAverangeTimeBySeverity(this.project, '3-HIGH').then(resp => {
+          this.averangeTimeTotal = resp.data
+        })
       },
 
       loadReopenedData (project) {
+        /*
         servicesReopened.getByProject(project).then(resp => {
           this.reopenedByProject = resp.data
           this.reopenedTotal = getReopenedTotal(resp.data, 5)
         })
+        */
+        services.getReopened(this.project).then(resp => {
+          this.reopenedTotal = resp.data
+        })
       },
 
       loadDetectableInDevData (project) {
+        /*
         servicesDetectableInDev.getByProject(project).then(resp => {
           this.detectableInDevByProject = resp.data
           this.detectableInDevTotal = getDetectableInDevTotal(resp.data, 5)
         })
+        */
+        services.getDetectableInDev(this.project).then(resp => {
+          this.detectableInDevTotal = resp.data
+        })
       },
 
       loadStatus (project) {
+        /*
         servicesStatusGroupDay.getByProject(project).then(resp => {
           this.statusByProjectGroupDayTop30 = getStatusTrans(resp.data.slice(0, 29).sort((a, b) => a.dateOrder > b.dateOrder ? 1 : (a.dateOrder < b.dateOrder ? -1 : 0)))
           this.statusByProjectGroupDayTop5 = getStatusTrans(resp.data.slice(0, 4))
@@ -199,46 +236,89 @@
         servicesStatusGroupMonth.getByProject(project).then(resp => {
           this.statusByProjectGroupMonth = getStatusTrans(resp.data)
         })
+        */
+        services.getStatusLastDays(this.project).then(resp => {
+          this.statusByProjectGroupDayTop5 = getStatusTrans(resp.data.last05Days)
+          this.statusByProjectGroupDayTop30 = getStatusTrans(resp.data.last30Days)
+        })
+        services.getStatusGroupMonth(this.project).then(resp => {
+          this.statusByProjectGroupMonth = getStatusTrans(resp.data)
+        })
       },
 
       loadDefectsStatus (project) {
+        /*
         servicesDefectsStatus.getByProject(project).then(resp => {
+          this.defectStatus = resp.data
+        })
+        */
+        services.getDefectsStatus(this.project).then(resp => {
           this.defectStatus = resp.data
         })
       },
 
       loadDefectsGroupOrigin (project) {
+        /*
         servicesDefectsGroupOrigin.getByProject(project).then(resp => {
+          this.defectGroupOrigin = resp.data
+        })
+        */
+        services.getDefectsGroupOrigin(this.project).then(resp => {
           this.defectGroupOrigin = resp.data
         })
       },
 
       loadDefectsOpenInTestManuf (project) {
+        /*
         servicesDefectsOpenInTestManuf.getByProject(project).then(resp => {
+          this.defectsOpenInTestManuf = resp.data
+        })
+        */
+        services.getDefectsOpenInTestManuf(this.project).then(resp => {
           this.defectsOpenInTestManuf = resp.data
         })
       },
 
       loadDefectsOpenInDevManuf (project) {
+        /*
         servicesDefectsOpenInDevManuf.getByProject(project).then(resp => {
+          this.defectsOpenInDevManuf = resp.data
+        })
+        */
+        services.getDefectsOpenInDevManuf(this.project).then(resp => {
           this.defectsOpenInDevManuf = resp.data
         })
       },
 
       loadCtsImpactedXDefects (project) {
+        /*
         servicesCtsImpactedXDefects.getByProject(project).then(resp => {
+          this.ctsImpactedXDefects = resp.data
+        })
+        */
+        services.getCTsImpactedXDefects(this.project).then(resp => {
           this.ctsImpactedXDefects = resp.data
         })
       },
 
       loadProductivityXDefects (project) {
+        /*
         servicesProductivityXDefects.getByProject(project).then(resp => {
+          this.productivityXDefects = resp.data
+        })
+        */
+        services.getProductivityXDefects(this.project).then(resp => {
           this.productivityXDefects = resp.data
         })
       },
 
       loadProductivityXDefectsGroupWeekly (project) {
+        /*
         servicesProductivityXDefectsGroupWeekly.getByProject(project).then(resp => {
+          this.productivityXDefectsGroupWeekly = resp.data
+        })
+        */
+        services.getProductivityXDefectsGroupWeekly(this.project).then(resp => {
           this.productivityXDefectsGroupWeekly = resp.data
         })
       },
@@ -285,6 +365,18 @@
         </div>
         
         <div class="col-xs-6 text-right">
+
+
+          <a class="btn btn-xs my-tool-tip oi-icon"
+            v-show="state !== 'search'" 
+            @click="showReport"
+            data-toggle="modal"
+            data-target="#showReport"
+            title="Report Por Email">
+            <span class="glyphicon glyphicon-envelope"></span>
+          </a>
+
+
           <a class="btn btn-xs my-tool-tip oi-icon"
             v-show="this.state !== 'search'" 
             @click="searchItem"
@@ -365,6 +457,64 @@
         :iterationsActive="iterationsActive"
         :iterationsSelected="iterationsSelected"
       />    
+
+      <!-- SEND REPORT -->
+      <oiModal id="showReport" >
+        <div class="text-center">
+          <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="email de destino" v-model="email.to"></textarea>
+          </div>
+
+          <div class="form-group">
+              <textarea class="form-control" rows="3" id="subject" placeholder="título da menssagem" v-model="email.subject"></textarea>
+          </div>
+
+          <a class="btn btn-primary btn-xs" id="alert-target"
+            role="button"
+            v-show="email.to != '' && email.subject != ''"
+            @click="sendReportByEmail">
+            Enviar
+          </a>            
+
+          <a class="btn btn-primary btn-xs" 
+            role="button"
+            data-dismiss="modal"
+            @click="closeModalShowReport">
+            Fechar
+          </a>
+        </div>
+
+        <div class="text-left">
+          <a class="btn btn-primary btn-xs" 
+            role="button" 
+            data-toggle="collapse" 
+            href="#xpto52" 
+            aria-expanded="false" 
+            aria-controls="collapseExample">
+            Exibir Report
+          </a>            
+
+          <div id="xpto52" class="collapse" >
+              <oiReport
+                :project="project"
+                :densityTotal="densityTotal"
+                :averangeTimeTotal="averangeTimeTotal"
+                :reopenedTotal="reopenedTotal"
+                :detectableInDevTotal="detectableInDevTotal"
+                :statusByProjectGroupDayTop5="statusByProjectGroupDayTop5"
+                :statusByProjectGroupDayTop30="statusByProjectGroupDayTop30"
+                :statusByProjectGroupMonth="statusByProjectGroupMonth"
+                :defectStatus="defectStatus"
+                :defectGroupOrigin="defectGroupOrigin"
+                :defectsOpenInTestManuf="defectsOpenInTestManuf"
+                :defectsOpenInDevManuf="defectsOpenInDevManuf"
+                :ctsImpactedXDefects="ctsImpactedXDefects"
+                :productivityXDefects="productivityXDefects"
+                :productivityXDefectsGroupWeekly="productivityXDefectsGroupWeekly"
+              />
+          </div>
+        </div>
+      </oiModal>        
     </div>
   </div>
 </template>

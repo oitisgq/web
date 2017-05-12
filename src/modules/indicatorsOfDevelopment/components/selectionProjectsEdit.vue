@@ -1,5 +1,6 @@
 <script>
   import oiModal from 'components/modal.vue'
+  import services from '../services'
 
   export default {
     name: 'selectionProjectsEdit',
@@ -14,6 +15,16 @@
 
     data () {
       return {
+        inputDate: '',
+        inputDate2: '',
+
+        densityTimeline: [],
+        agingMedioTimeline: [],
+        wrongClassifTimeline: [],
+        detectableInDevTimeline: [],
+        reopenedTimeline: [],
+        noPredictionTimeline: [],
+
         state: 'searching',
         filterSelected: '',
         filterTerm: '',
@@ -32,21 +43,66 @@
     computed: {
       message () {
         let numberOfProjects = this.dataSource.length ? 'Encontrados: <b>' + this.dataSource.length + '</b>' : ''
-        let selected = this.selected.length ? 'selecionados: <b>' + this.selected.length + '</b>' : ''
-        let filteredByTerm = (this.filteredByTerm.length !== this.dataSource.length) ? 'filtrados: <b>' + this.filteredByTerm.length + '</b>' : ''
-        if (numberOfProjects !== '' && (selected !== '' || filteredByTerm !== '')) {
+        let selected = this.selected.length ? 'Selecionados: <b>' + this.selected.length + '</b>' : ''
+        let timeScope1 = this.inputDate.length ? 'Data Início: <b>' + this.convertDate(this.inputDate) + '</b>' : ''
+        let timeScope2 = this.inputDate2.length ? 'Data Fim: <b>' + this.convertDate(this.inputDate2) + '</b>' : ''
+        let filteredByTerm = (this.filteredByTerm.length !== this.dataSource.length) ? 'Filtrados: <b>' + this.filteredByTerm.length + '</b>' : ''
+        if (numberOfProjects !== '' && (selected !== '' || filteredByTerm !== '' || timeScope1 !== '' || timeScope2 !== '')) {
           numberOfProjects = numberOfProjects + ', '
         }
-        if (selected !== '' && filteredByTerm !== '') {
+        if (selected !== '' && (filteredByTerm !== '' || timeScope1 !== '' || timeScope2 !== '')) {
           selected = selected + ', '
         }
-        return numberOfProjects + selected + filteredByTerm
+        if (filteredByTerm !== '' && (timeScope1 !== '' || timeScope2 !== '')) {
+          filteredByTerm = filteredByTerm + ', '
+        }
+        if (timeScope2 !== '') {
+          timeScope1 = timeScope1 + ', '
+        }
+        return numberOfProjects + selected + filteredByTerm + timeScope1 + timeScope2
       }
-      // filteredByTerm () { return this.filteredByTerm }
-      // selected () { return this.selected }
     },
 
     methods: {
+      replaceDateBegin (inputDate) {
+        var dateBegin = this.inputDate.replace(/-/g, '').substr(2)
+        // console.log(dateBegin)
+        return dateBegin
+      },
+      replaceDateEnd (inputDate2) {
+        var dateEnd = this.inputDate2.replace(/-/g, '').substr(2)
+        // console.log(dateEnd)
+        return dateEnd
+      },
+      convertDate (inputFormat) {
+        var year = inputFormat.substr(0, 4)
+        var month = inputFormat.slice(5, 7) - 1
+        var day = inputFormat.slice(8)
+        function pad (s) { return (s < 10) ? '0' + s : s }
+        var d = new Date(year, month, day)
+        return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
+      },
+      loadJsonDataTimeline () {
+        services.getDensityByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.densityTimeline = r.data
+        })
+        services.getAgingMedioByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.agingMedioTimeline = r.data
+        })
+        services.getWrongClassificationDefectRateByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.wrongClassifTimeline = r.data
+        })
+        services.getDetectableInDevByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.detectableInDevTimeline = r.data
+        })
+        services.getReopenedByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.reopenedTimeline = r.data
+        })
+        services.getnoPredictionDefectsByDate(this.replaceDateBegin(), this.replaceDateEnd()).then(r => {
+          this.noPredictionTimeline = r.data
+        })
+        this.$emit('onMessage', this.inputDate, this.inputDate2)
+      },
       setExibirProjetos () {
         this.filterSelected = 'projects'
         this.state = 'searching'
@@ -104,8 +160,23 @@
       confirm () {
         this.filterTerm = ''
         this.$emit('onConfirmData', this.selected)
-      }
+      },
 
+      confirmTimeline () {
+        this.filterTerm = ''
+        this.$emit('onConfirmDataTimeline', this.selected, this.densityTimeline, this.agingMedioTimeline, this.wrongClassifTimeline, this.detectableInDevTimeline, this.reopenedTimeline, this.noPredictionTimeline)
+      }
+      /*
+      confirmDay () {
+        this.filterTerm = ''
+        this.$emit('onConfirmDataDay', this.selected)
+      },
+
+      confirmLastDay () {
+        this.filterTerm = ''
+        this.$emit('onConfirmDataLastDay', this.selected)
+      }
+      */
     }
   }
 
@@ -140,11 +211,19 @@
             id="confirmProjects" 
             v-show="selected.length > 0"
             class="btn btn-xs" 
-            @click="confirm()">Confirmar
-        </button>        
+            @click="confirm()">Confirmar(Consolidado)
+        </button>   
+
+        <button 
+            type="button" 
+            id="confirmProjectsTimeline" 
+            v-show="selected.length > 0"
+            class="btn btn-xs" 
+            @click="confirmTimeline()">Confirmar Escopo
+        </button>      
 
         <label class="oi-message" v-html="message"/>
-        
+
         <!-- CAMPO PESQUISA  -->
         <div class="row well well-sm oi-well">
           <div class="col-xs-12 oi-col">
@@ -168,9 +247,25 @@
                   class="btn btn-xs" 
                   v-show="filterTerm != '' && selected.length > 0"
                   @click="unSelectAllProjectsFilteredByText()">Nenhum dos Filtrados
-              </button>     
+              </button>  
+
+              <label for="beginningDate">Data Inicial: </label>
+              <input id="beginningDate" type="date" v-model="inputDate"  v-on:change='replaceDateBegin(inputDate)'/>
+
+              <label for="endDate">Data Final: </label>
+              <input id="endDate" type="date" v-model="inputDate2"  v-on:change='replaceDateEnd(inputDate2)'/>
+
+              <button 
+                  type="button" 
+                  id="confirmDates" 
+                  class="btn btn-xs" 
+                  v-show="inputDate != '' && inputDate2 !=''"
+                  @click="loadJsonDataTimeline()">Ok
+              </button>  
           </div>
         </div>        
+
+      
 
 
         <!-- TABELA RESULTADO  -->

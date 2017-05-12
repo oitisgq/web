@@ -7,21 +7,21 @@ export const getUser = (networkLogin, password) => {
 }
 */
 import Resource from 'src/http/vueResource'
-import ServerPaths from 'src/http/serverPaths'
+import webApiPath from 'src/http/webApiPath'
 
 export default {
   getUsers () {
-    let resource = Resource.resource(ServerPaths.default + '/users')
+    let resource = Resource.resource(webApiPath.default + '/users')
     return resource.get()
   },
 
   getUserByCpf (login, cpf) {
-    let resource = Resource.resource(ServerPaths.default + '/userByCpf{/login}{/cpf}')
+    let resource = Resource.resource(webApiPath.default + '/userByCpf{/login}{/cpf}')
     return resource.get({ login: login, cpf: cpf })
   },
 
   getUserByPassword (login, password) {
-    let resource = Resource.resource(ServerPaths.default + '/userBypassword/{/login}{/password}')
+    let resource = Resource.resource(webApiPath.default + '/userBypassword/{/login}{/password}')
     return resource.get({ login: login, password: password })
   }
 }

@@ -1,6 +1,6 @@
 <script>
   import oiShowReport from 'components/project/showReport.vue'
-  import ServerPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
 
   // import services from '../services'
 
@@ -9,7 +9,7 @@
   import getReopenedTotal from 'src/libs/getReopenedTotal'
   import getDetectableInDevTotal from 'src/libs/getDetectableInDevTotal'
 
-  // import ServerPaths from 'src/http/serverPaths'
+  // import webApiPath from 'src/http/webApiPath'
 
   import getStatusTrans from 'src/libs/getStatusTrans'
 
@@ -65,7 +65,7 @@
     methods: {
       loadProject () {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/Project/Project/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/Project/Project/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.project = r.data
@@ -110,7 +110,7 @@
 
       loadDensity (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsDensity/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsDensity/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.density = r.data
@@ -129,7 +129,7 @@
       loadAverangeTime (project) {
         /*
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsAverangeTime/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsAverangeTime/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.averangeTime = r.data
@@ -147,7 +147,7 @@
 
       loadReopened (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsReopened/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsReopened/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.reopenedByProject = r.data
@@ -165,7 +165,7 @@
 
       loadDetectableInDev (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsDetectableInDev/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsDetectableInDev/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.detectableInDevByProject = r.data
@@ -183,7 +183,7 @@
 
       loadStatusGroupDay (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/statusGroupDay/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/statusGroupDay/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.statusByProjectGroupDayTop30 = getStatusTrans(r.data.slice(0, 29).sort((a, b) => a.dateOrder > b.dateOrder ? 1 : (a.dateOrder < b.dateOrder ? -1 : 0)))
@@ -201,7 +201,7 @@
 
       loadStatusGroupMonth (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/statusGroupMonth/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/statusGroupMonth/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.statusByProjectGroupMonth = getStatusTrans(r.data)
@@ -217,7 +217,7 @@
 
       loadDefectStatus (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsStatus/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsStatus/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.defectStatus = r.data
@@ -233,7 +233,7 @@
 
       loadDefectsGroupOrigin (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsGroupOrigin/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsGroupOrigin/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.defectGroupOrigin = r.data
@@ -249,7 +249,7 @@
 
       loadDefectsOpenInDevManuf (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsOpenInDevManuf/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsOpenInDevManuf/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.defectsOpenInDevManuf = r.data
@@ -265,7 +265,7 @@
 
       loadDefectsOpenInTestManuf (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/defectsOpenInTestManuf/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/defectsOpenInTestManuf/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.defectsOpenInTestManuf = r.data
@@ -281,7 +281,7 @@
 
       loadCTsImpactedXDefects (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/ctsImpactedXDefects/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/ctsImpactedXDefects/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.ctsImpactedXDefects = r.data
@@ -297,7 +297,7 @@
 
       loadProductivityXDefects (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/productivityXDefects/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/productivityXDefects/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.productivityXDefects = r.data
@@ -313,7 +313,7 @@
 
       loadProductivityXDefectsGroupWeekly (project) {
         let _this = this
-        _this.$http.get(ServerPaths.default + '/productivityXDefectsGroupWeekly/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/productivityXDefectsGroupWeekly/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.productivityXDefectsGroupWeekly = r.data

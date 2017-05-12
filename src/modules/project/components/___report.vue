@@ -1,7 +1,7 @@
 <script>
   // import oiView from 'components/project/view.vue'
   // import oiModal from 'components/modal_.vue'
-  import ServerPaths from 'src/http/serverPaths'
+  import webApiPath from 'src/http/webApiPath'
   import oiReport from 'components/project/showReport.vue'
   // import Toastr from 'toastr'
 
@@ -137,7 +137,7 @@
         })
         */
         let _this = this
-        _this.$http.get(ServerPaths.default + '/statusGroupDay/' + _this.project.subproject + '/' + _this.project.delivery)
+        _this.$http.get(webApiPath.default + '/statusGroupDay/' + _this.project.subproject + '/' + _this.project.delivery)
           .then(
             r => {
               _this.statusByProjectGroupDayTop30 = getStatusTrans(r.data.slice(0, 29).sort((a, b) => a.dateOrder > b.dateOrder ? 1 : (a.dateOrder < b.dateOrder ? -1 : 0)))

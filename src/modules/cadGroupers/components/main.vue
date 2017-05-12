@@ -7,14 +7,14 @@
   import Toastr from 'toastr'
 
   import oiGrid from 'components/grouper/grid.vue'
-  import oiView from 'components/grouper/view.vue'
+  import oiShow from 'components/grouper/show.vue'
   import oiEdit from './edit.vue'
   import oiNew from './new.vue'
 
   export default {
     name: 'cadgroupersMain',
 
-    components: { oiGrid, oiView, oiEdit, oiNew },
+    components: { oiGrid, oiShow, oiEdit, oiNew },
 
     data () {
       return {
@@ -119,13 +119,12 @@
           if (this.item.name === '') {
             Toastr.success('Informe o nome!')
           } else {
-            ServicesCadgroupers.create(this.item)
-              .then(r => {
-                this.items.push(r.data)
-                this.loadData()
-                this.state = 'search'
-                Toastr.success('Dados gravados!')
-              })
+            ServicesCadgroupers.create(this.item).then(r => {
+              this.items.push(r.data)
+              this.loadData()
+              this.state = 'search'
+              Toastr.success('Dados gravados!')
+            })
           }
         }
       },
@@ -201,7 +200,7 @@
             @click="newItem"
             data-toggle="tooltip" 
             :title="this.state !== 'new' ? 'Novo' : 'Gravar'">
-            <span class='glyphicon glyphicon-save-file'></span>
+            <span class='glyphicon glyphicon-plus-sign' style="font-size:x-large"></span>
           </a>
 
           <a class="btn btn-xs my-tool-tip oi-icon"
@@ -240,7 +239,7 @@
         :item="item"
       />
 
-      <oiView
+      <oiShow
         v-show="this.state=='show'"
         :item="itemFull"
       />  

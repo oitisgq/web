@@ -3,27 +3,37 @@
   import ServicesCadgroupers from 'src/modules/cadgroupers/services'
   import ServicesProjectXgrouper from 'src/modules/projectXgrouper/services'
   import oiGrid from 'components/grouper/gridShow.vue'
-  import oiView from 'components/grouper/view.vue'
+  import oiShow from 'components/grouper/show.vue'
+  import oiModal from 'components/modal_.vue'
+  import Toastr from 'toastr'
+  import webApiPath from 'src/http/webApiPath'
+  import webAppPath from 'src/http/webAppPath'
 
   export default {
     name: 'groupersMain',
 
-    components: { oiGrid, oiView },
+    components: { oiGrid, oiShow, oiModal },
 
     data () {
       return {
         state: 'search',
 
         filterProperties: [
-            {name: 'name'},
-            {name: 'description'}
+            {name: 'name'}
         ],
 
         item: {},
         itemFull: {},
         items: [],
         itemsFilteredByText: [],
-        itemFilterTerm: ''
+        itemFilterTerm: '',
+
+        email: {
+          from: 'sgq@oi.net.br',
+          to: '',
+          subject: '',
+          url: ''
+        }
       }
     },
 
@@ -80,11 +90,34 @@
               projects: []
             }
           }
+
+          this.email.subject = '[Agrupador] ' + this.item.name
         })
       },
 
       showItem () {
         this.state = 'show'
+      },
+
+      showReport () {
+        this.state = 'showReport'
+      },
+
+      closeModalShowReport () {
+        this.state = 'show'
+      },
+
+      sendReportByEmail () {
+        this.email.url = webAppPath.default + '/grouper/report/' + this.item.id
+        // Toastr.info('Aguarde o envio...', '', {timeOut: 0, extendedTimeOut: 0})
+        Toastr.info('E-mail solicitado! Pode continuar a usar a aplicação...', '', { timeOut: 20000 })
+        this.$http.post(webApiPath.default + '/SendEmailGrouper', this.email).then(r => {
+          // Toastr.success('E-mail enviado!', '', {timeOut: 0, extendedTimeOut: 0})
+          Toastr.success('E-mail enviado!', '', { timeOut: 15000 })
+        }, e => {
+          // Toastr.error('Não foi possível enviar o e-mail. Tente novamente!', '', {timeOut: 0, extendedTimeOut: 0})
+          Toastr.error('Não foi possível enviar o e-mail. Tente novamente!', '', { timeOut: 15000 })
+        })
       }
     }
   }
@@ -98,6 +131,15 @@
           <label>Agrupadores</label>
         </div>
         <div class="col-xs-6 text-right">
+          <a class="btn btn-xs my-tool-tip oi-icon"
+            v-show="state !== 'search'" 
+            @click="showReport"
+            data-toggle="modal"
+            data-target="#showReport"
+            title="Report Por Email">
+            <span class="glyphicon glyphicon-envelope"></span>
+          </a>
+
           <a class="btn btn-xs my-tool-tip oi-icon"
             v-show="this.state !== 'search'" 
             @click="searchItem"
@@ -123,17 +165,43 @@
             v-model="itemFilterTerm"
             @keyup="filterItems"/>
       </div>
-
       <oiGrid
         v-show="this.state === 'search'"
         :items="itemsFilteredByText"
         @onSelectItem="selectItem"
       />
 
-      <oiView
+      <oiShow
         v-show="this.state=='show'"
         :item="itemFull"
       />  
+
+      <!-- SEND REPORT -->
+      <oiModal id="showReport" v-show="this.state=='showReport'">
+        <div class="text-center">
+          <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="email de destino" v-model="email.to"></textarea>
+          </div>
+
+          <div class="form-group">
+              <textarea class="form-control" rows="3" id="subject" placeholder="título da menssagem" v-model="email.subject"></textarea>
+          </div>
+
+          <a class="btn btn-primary btn-xs" id="alert-target"
+            role="button"
+            v-show="email.to != '' && email.subject != ''"
+            @click="sendReportByEmail">
+            Enviar
+          </a>            
+
+          <a class="btn btn-primary btn-xs" 
+            role="button"
+            data-dismiss="modal"
+            @click="closeModalShowReport">
+            Fechar
+          </a>
+        </div>
+      </oiModal>
     </div>
   </div>
 </template>
